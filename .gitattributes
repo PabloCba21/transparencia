@@ -1,0 +1,6 @@
+# Todo el texto con fin de línea LF (Unix), aunque se edite en Windows.
+# Evita que configs y scripts copiados a la VM Linux lleguen con CRLF.
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.pdf binary
