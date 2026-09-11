@@ -17,6 +17,14 @@
 | Repositorio | Git local (después, GitHub) | — |
 | Identidad visual | La de www.unlar.edu.ar | Ver [docs/identidad-visual.md](docs/identidad-visual.md) |
 
+## Layout institucional (aprobado 11/09/2026) — próximo paso
+
+1. **`src/layouts/Base.astro`:** barra superior azul `#1e5b96` con el logo de línea y "Portal de Transparencia", menú de secciones y footer bordó `#260b17` con los datos institucionales.
+2. **Tipografías** Open Sans (texto) y Dosis (títulos) servidas desde el sitio. Colores como variables CSS en un único lugar.
+3. **Home:** una introducción breve y una grilla de 9 tarjetas, una por sección. Motivo UX: la gente llega con una pregunta concreta y necesita ver las puertas de entrada de un vistazo.
+4. **Una página por sección**, con la leyenda "Información en proceso de actualización" + fecha mientras no haya contenido.
+5. **Accesibilidad:** `lang="es"`, link "Saltar al contenido", foco visible y contraste AA.
+
 ## Arquitectura
 
 ```

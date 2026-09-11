@@ -26,4 +26,4 @@ Ambas tienen licencia libre (OFL). **Se sirven desde el propio servidor**, no de
 
 - La web usa el **logo de línea simplificado** (azul + gris "UNLaR"). Copia en `public/img/logo-unlar.png`.
 - En `SSI/Img institucional/Identidad Institucional.png` está la versión con el **escudo tradicional**.
-- ❓ **Pendiente:** confirmar cuál corresponde. Por coherencia con www.unlar.edu.ar, la propuesta es el de línea.
+- ✅ **Decisión (11/09/2026, Pablo):** se usa el **logo de línea**, por coherencia con www.unlar.edu.ar.
