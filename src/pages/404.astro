@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Nginx sirve este archivo como error_page 404 (ver deploy/nginx/).
+---
+
+<Base
+	titulo="Página no encontrada"
+	descripcion="La página que buscás no existe o cambió de dirección."
+>
+	<div class="texto-lectura">
+		<h1>No encontramos esa página</h1>
+		<p>
+			Puede que la dirección esté mal escrita o que la página haya cambiado de lugar. Podés volver al
+			<a href="/">inicio</a> y buscar la sección desde ahí.
+		</p>
+	</div>
+</Base>

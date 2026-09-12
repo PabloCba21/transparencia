@@ -1,0 +1,94 @@
+---
+import { Font } from 'astro:assets';
+import MenuSecciones from '../components/MenuSecciones.astro';
+import '../styles/global.css';
+
+interface Props {
+	/** Título de la página (sin el nombre del sitio, que se agrega acá) */
+	titulo: string;
+	/** Resumen para buscadores y para cuando se comparte el link */
+	descripcion: string;
+	/** Slug de la sección activa, para marcarla en el menú */
+	slugActivo?: string;
+}
+
+const { titulo, descripcion, slugActivo } = Astro.props;
+const tituloCompleto = `${titulo} · Portal de Transparencia · UNLaR`;
+const canonica = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{tituloCompleto}</title>
+		<meta name="description" content={descripcion} />
+		<link rel="canonical" href={canonica} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#1e5b96" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Portal de Transparencia · UNLaR" />
+		<meta property="og:title" content={titulo} />
+		<meta property="og:description" content={descripcion} />
+		<meta property="og:url" content={canonica} />
+		<meta property="og:locale" content="es_AR" />
+
+		<!-- Fuentes servidas desde este mismo sitio (ver astro.config.mjs) -->
+		<Font cssVariable="--fuente-texto" preload />
+		<Font cssVariable="--fuente-titulos" preload />
+	</head>
+	<body>
+		<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+		<header class="cabecera">
+			<div class="contenedor cabecera__interior">
+				<a class="marca" href="/">
+					<img
+						class="marca__logo"
+						src="/img/logo-unlar.png"
+						width="2036"
+						height="742"
+						alt="Universidad Nacional de La Rioja"
+					/>
+					<span class="marca__titulo">Portal de Transparencia</span>
+				</a>
+			</div>
+		</header>
+
+		<nav class="menu" aria-label="Secciones del portal">
+			<div class="contenedor">
+				<details class="menu__movil">
+					<summary>Secciones</summary>
+					<MenuSecciones slugActivo={slugActivo} />
+				</details>
+				<div class="menu__escritorio">
+					<MenuSecciones slugActivo={slugActivo} />
+				</div>
+			</div>
+		</nav>
+
+		<main id="contenido">
+			<div class="contenedor">
+				<slot />
+			</div>
+		</main>
+
+		<footer class="pie">
+			<div class="contenedor">
+				<p class="pie__titulo">Universidad Nacional de La Rioja</p>
+				<p>Portal de Transparencia</p>
+				<p>Secretaría General · Subsecretaría de Informática</p>
+				<p>
+					Ciudad Universitaria de la Ciencia y la Técnica · Luis M. de La Fuente S/N · La Rioja,
+					Argentina
+				</p>
+				<p>Teléfono: 380457000</p>
+				<p class="pie__copy">© 2026 Universidad Nacional de La Rioja</p>
+			</div>
+		</footer>
+	</body>
+</html>

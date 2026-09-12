@@ -1,0 +1,25 @@
+---
+import { secciones } from '../data/secciones';
+
+interface Props {
+	/** Slug de la sección que se está viendo, para marcarla en el menú */
+	slugActivo?: string;
+}
+
+const { slugActivo } = Astro.props;
+---
+
+<ul class="menu__lista">
+	{
+		secciones.map((seccion) => (
+			<li>
+				<a
+					href={`/${seccion.slug}/`}
+					aria-current={seccion.slug === slugActivo ? 'page' : undefined}
+				>
+					{seccion.tituloCorto}
+				</a>
+			</li>
+		))
+	}
+</ul>

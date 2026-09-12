@@ -17,9 +17,10 @@
 | Repositorio | Git local (después, GitHub) | — |
 | Identidad visual | La de www.unlar.edu.ar | Ver [docs/identidad-visual.md](docs/identidad-visual.md) |
 
-## Layout institucional (aprobado 11/09/2026) — próximo paso
+## Layout institucional (aprobado 11/09/2026) — ✅ implementado
 
-1. **`src/layouts/Base.astro`:** barra superior azul `#1e5b96` con el logo de línea y "Portal de Transparencia", menú de secciones y footer bordó `#260b17` con los datos institucionales.
+1. **`src/layouts/Base.astro`:** franja blanca con el logo de línea y "Portal de Transparencia", debajo la barra azul `#1e5b96` con el menú de secciones, y footer bordó `#260b17` con los datos institucionales.
+   > Cambio sobre lo aprobado: el logo no podía ir sobre la barra azul porque es azul `#1e5b96` + gris y desaparecía. Va sobre blanco, igual que en www.unlar.edu.ar ([detalle](docs/identidad-visual.md)).
 2. **Tipografías** Open Sans (texto) y Dosis (títulos) servidas desde el sitio. Colores como variables CSS en un único lugar.
 3. **Home:** una introducción breve y una grilla de 9 tarjetas, una por sección. Motivo UX: la gente llega con una pregunta concreta y necesita ver las puertas de entrada de un vistazo.
 4. **Una página por sección**, con la leyenda "Información en proceso de actualización" + fecha mientras no haya contenido.
@@ -52,7 +53,7 @@ Una sección sin contenido se publica igual con la leyenda *"Información en pro
 
 | Día | Infraestructura (equipo SSI) | Sitio |
 |---|---|---|
-| **Vie 11** | Crear la VM y hacer el hardening base ([checklist](docs/checklist-vm.md), pasos 1–5) | ✅ Proyecto, git, plan, relevamiento de identidad · ⏳ Layout institucional |
+| **Vie 11** | Crear la VM y hacer el hardening base ([checklist](docs/checklist-vm.md), pasos 1–5) | ✅ Proyecto, git, plan, relevamiento de identidad · ✅ Layout institucional, home y 9 páginas de sección |
 | **Lun 14** | Nginx y certificado (pasos 6–9) | Páginas de las 9 secciones y esquema de documentos; cargar el contenido recibido |
 | **Mar 15** | Deploy de staging por IP interna (paso 10) | **Revisión con Legal y Técnica**; pruebas en celular y accesibilidad |
 | **Mié 16** | DNS público → producción (paso 11) | Verificación final: SSL Labs, headers, links, PDFs |

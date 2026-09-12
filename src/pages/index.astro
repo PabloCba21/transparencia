@@ -1,17 +1,54 @@
 ---
+import Base from '../layouts/Base.astro';
+import { secciones } from '../data/secciones';
 
+const descripcion =
+	'Información pública sobre el manejo de fondos de la Universidad Nacional de La Rioja: presupuesto, ejecución, compras, convenios, auditorías y normativa.';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base titulo="Inicio" descripcion={descripcion}>
+	<div class="texto-lectura">
+		<h1>Portal de Transparencia</h1>
+		<p>
+			La Universidad Nacional de La Rioja publica en este portal información sobre el manejo de sus
+			fondos, para que cualquier persona pueda consultarla sin necesidad de pedirla.
+		</p>
+		<p>
+			Las secciones se actualizan a medida que las áreas responsables entregan la información. Si lo
+			que buscás no está publicado, podés solicitarlo: en <a href="/acceso-a-la-informacion/"
+				>Acceso a la información pública</a
+			> se explica cómo hacerlo.
+		</p>
+	</div>
+
+	<h2 class="visualmente-oculto" id="secciones">Secciones</h2>
+	<ul class="grilla" aria-labelledby="secciones">
+		{
+			secciones.map((seccion) => (
+				<li class="tarjeta">
+					<h2>
+						<a href={`/${seccion.slug}/`}>{seccion.titulo}</a>
+					</h2>
+					<p>{seccion.descripcion}</p>
+				</li>
+			))
+		}
+	</ul>
+</Base>
+
+<style>
+	.texto-lectura {
+		margin-bottom: 2.5rem;
+	}
+
+	/* Título que existe para el lector de pantalla pero no se muestra:
+	   le da nombre a la lista de secciones sin repetirlo visualmente. */
+	.visualmente-oculto {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+</style>
