@@ -70,5 +70,5 @@ Una sección sin contenido se publica igual con la leyenda *"Información en pro
 
 - Buscador y filtros por año y sección.
 - Script en **Python** que convierta planillas Excel a tablas publicables.
-- Script de deploy con releases y rollback.
+- ~~Script de deploy con releases y rollback.~~ ✅ `deploy/publicar.ps1` y `deploy/revertir.ps1` (11/09/2026).
 - Subir el repo a GitHub y automatizar el build (CI).

@@ -14,6 +14,8 @@ Sitio estático con Astro 7 para https://transparencia.unlar.edu.ar. El plan, la
 - `npm run dev`: servidor de desarrollo
 - `npm run build`: genera `dist/`
 - `npm run preview`: sirve `dist/` localmente
+- `.\deploy\publicar.ps1 -Servidor deploy@<IP_VM>`: compila y publica en la VM (releases + symlink)
+- `.\deploy\revertir.ps1 -Listar` / `.\deploy\revertir.ps1`: ver releases y volver a la anterior
 
 ## Development
 

@@ -1,6 +1,6 @@
 # Checklist VM — transparencia.unlar.edu.ar
 
-Reemplazá los valores entre `<...>`. Los pasos 1–5 son para el viernes 11, los 6–10 para el lunes y martes, y el 11 para el miércoles.
+Reemplazá los valores entre `<...>`. Los pasos 1–5 son para el viernes 11, los 6–10 para el lunes y martes, el 11 se usa cada vez que se publica, y el 12 es para el miércoles.
 
 ---
 
@@ -189,7 +189,66 @@ curl -X POST -I https://transparencia.unlar.edu.ar   # 405
 
 Revisar también en el navegador que el candado no muestre advertencias.
 
-## 11. Producción (miércoles 16)
+## 11. Publicar el sitio desde la PC
+
+El build se hace en la PC de desarrollo; a la VM viaja solamente el resultado (`dist/`). Así la VM no necesita Node, npm ni el repositorio: menos software instalado en la DMZ, menos superficie de ataque.
+
+### Con el script (lo habitual)
+
+Desde la raíz del repo, en PowerShell:
+
+```powershell
+.\deploy\publicar.ps1 -Servidor deploy@<IP_VM>
+```
+
+Para no repetir la IP en cada publicación de la jornada:
+
+```powershell
+$env:TRANSPARENCIA_SERVIDOR = 'deploy@<IP_VM>'
+.\deploy\publicar.ps1
+```
+
+Otras opciones útiles:
+
+| Comando | Para qué |
+|---|---|
+| `.\deploy\publicar.ps1 -SinBuild` | Publicar el `dist/` actual sin recompilar |
+| `.\deploy\revertir.ps1 -Listar` | Ver las releases que hay en la VM y cuál está publicada |
+| `.\deploy\revertir.ps1` | Volver a la release anterior |
+| `.\deploy\revertir.ps1 -Release 2026-09-15-1030` | Volver a una release puntual |
+
+El script corta ante el primer error: si el build falla o la copia no llega, **el sitio que está publicado no se toca**.
+
+### A mano (si el script falla o no hay PowerShell)
+
+```powershell
+npm run build
+$release = Get-Date -Format 'yyyy-MM-dd-HHmm'
+tar -czf "$env:TEMP\sitio.tar.gz" -C dist .
+scp "$env:TEMP\sitio.tar.gz" deploy@<IP_VM>:/tmp/
+ssh deploy@<IP_VM>
+```
+
+Ya en la VM:
+
+```bash
+RELEASE=$(date +%Y-%m-%d-%H%M)
+mkdir -p /var/www/transparencia/releases/$RELEASE
+tar -xzf /tmp/sitio.tar.gz -C /var/www/transparencia/releases/$RELEASE
+ln -sfn /var/www/transparencia/releases/$RELEASE /var/www/transparencia/current
+rm /tmp/sitio.tar.gz
+```
+
+Rollback:
+
+```bash
+ls -1dt /var/www/transparencia/releases/*/          # ver las releases
+ln -sfn /var/www/transparencia/releases/<anterior> /var/www/transparencia/current
+```
+
+> 💡 **Por qué el symlink.** Descomprimir arriba del sitio en vivo deja unos segundos en los que alguien puede recibir el HTML nuevo con el CSS viejo. Copiar a una carpeta nueva y recién después mover `current` hace que el cambio sea instantáneo. Nginx no necesita reload: `root` apunta al symlink y lo resuelve en cada pedido.
+
+## 12. Producción (miércoles 16)
 
 - [ ] Registro DNS `A transparencia.unlar.edu.ar → <IP_PUBLICA>` (+ NAT en el perimetral si corresponde)
 - [ ] Quitar la entrada del archivo hosts en las PCs de prueba
