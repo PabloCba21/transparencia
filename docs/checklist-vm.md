@@ -230,24 +230,28 @@ curl.exe -sI --resolve transparencia.unlar.edu.ar:443:<IP_VM> https://transparen
 
 ## 9. fail2ban para SSH
 
-Crear `/etc/fail2ban/jail.d/sshd.local`:
-
-```
-[sshd]
-enabled = true
-port = 55533
-maxretry = 5
-bantime = 1h
-```
-
-> `port` tiene que coincidir con el puerto real de SSH. Por defecto el jail bloquea el 22: con SSH en otro puerto detectaría los ataques pero bloquearía el puerto equivocado.
-
-Aplicar y verificar:
+> **Decisión (14/09/2026):** como UFW solo deja llegar al SSH desde la IP pública de la UNLaR, fail2ban nunca vería ataques de Internet. Además, bloquear esa IP compartida dejaría sin SSH a toda la SSI. Se activa igual, con la IP de la UNLaR en `ignoreip`: hoy no bloquea a nadie ni puede generar un autobloqueo, y protege sola si algún día se abre el SSH a más orígenes.
 
 ```bash
+sudo tee /etc/fail2ban/jail.d/sshd.local >/dev/null <<'EOF'
+[sshd]
+enabled  = true
+port     = 55533
+backend  = systemd
+maxretry = 5
+findtime = 10m
+bantime  = 1h
+ignoreip = 127.0.0.1/8 ::1 <IP_PUBLICA_UNLAR>
+EOF
+
+sudo fail2ban-client -t
 sudo systemctl restart fail2ban
 sudo fail2ban-client status sshd
 ```
+
+- `port`: el puerto real de SSH. Por defecto el jail bloquea el 22, y con SSH en otro puerto bloquearía el puerto equivocado.
+- `backend = systemd`: Ubuntu mínimo no tiene `/var/log/auth.log`; los logs de SSH están en el journal.
+- En `status`, la línea `Journal matches` tiene que incluir `sshd-session`. Desde OpenSSH 9.8 ese proceso registra los intentos de login, y si el filtro solo busca `sshd`, fail2ban no ve nada.
 
 ## 10. Prueba interna (staging)
 
