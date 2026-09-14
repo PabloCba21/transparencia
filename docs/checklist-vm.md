@@ -157,20 +157,24 @@ sudo -u deploy ln -sfn /var/www/transparencia/releases/inicial /var/www/transpar
 Desde tu PC, parado en la carpeta del certificado:
 
 ```bash
-scp STAR_unlar_edu_ar.crt STAR_unlar_edu_ar.ca-bundle myserver.key <admin>@<IP_VM>:/tmp/
+scp -P <PUERTO_SSH> STAR_unlar_edu_ar.crt STAR_unlar_edu_ar.ca-bundle myserver.key <admin>@<IP_VM>:~/
 ```
+
+> `scp` usa **`-P` mayúscula** para el puerto (`ssh` usa `-p` minúscula). Se copia a tu home y no a `/tmp`, porque `/tmp` es visible para todos los usuarios de la VM.
 
 En la VM:
 
 ```bash
 sudo mkdir -p /etc/ssl/unlar
-cat /tmp/STAR_unlar_edu_ar.crt /tmp/STAR_unlar_edu_ar.ca-bundle | sudo tee /etc/ssl/unlar/fullchain.crt >/dev/null
-sudo mv /tmp/myserver.key /etc/ssl/unlar/unlar.key
+cat ~/STAR_unlar_edu_ar.crt ~/STAR_unlar_edu_ar.ca-bundle | sudo tee /etc/ssl/unlar/fullchain.crt >/dev/null
+sudo mv ~/myserver.key /etc/ssl/unlar/unlar.key
 sudo chown root:root /etc/ssl/unlar/*
 sudo chmod 644 /etc/ssl/unlar/fullchain.crt
 sudo chmod 600 /etc/ssl/unlar/unlar.key
-rm /tmp/STAR_unlar_edu_ar.*
+rm ~/STAR_unlar_edu_ar.*
 ```
+
+> Verificado el 14/09/2026 en la PC: el `.ca-bundle` trae el intermedio `Sectigo ... DV R36` que firmó el certificado (`openssl verify` → OK), y ambos archivos terminan con salto de línea, así que la concatenación no pega dos líneas.
 
 Verificar que la clave corresponde al certificado (los dos hashes tienen que coincidir):
 
@@ -192,15 +196,36 @@ openssl x509 -noout -enddate -in /etc/ssl/unlar/fullchain.crt
 Desde tu PC, parado en la raíz del repo:
 
 ```bash
-scp deploy/nginx/transparencia.unlar.edu.ar.conf <admin>@<IP_VM>:/tmp/
+scp -P <PUERTO_SSH> deploy/nginx/transparencia.unlar.edu.ar.conf <admin>@<IP_VM>:/tmp/
 ```
 
 En la VM:
 
 ```bash
 sudo mv /tmp/transparencia.unlar.edu.ar.conf /etc/nginx/sites-available/
-sudo ln -s /etc/nginx/sites-available/transparencia.unlar.edu.ar.conf /etc/nginx/sites-enabled/
+sudo chown root:root /etc/nginx/sites-available/transparencia.unlar.edu.ar.conf
+sudo ln -sfn /etc/nginx/sites-available/transparencia.unlar.edu.ar.conf /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
+```
+
+> `mv` conserva el dueño original (tu usuario). La configuración de Nginx tiene que ser de `root`: si no, cualquiera que comprometa tu usuario podría modificarla sin `sudo`.
+
+Verificar en la VM (`--resolve` apunta el dominio a la propia VM sin tocar DNS ni el archivo hosts):
+
+```bash
+curl -sI --resolve transparencia.unlar.edu.ar:443:127.0.0.1 https://transparencia.unlar.edu.ar/ | head -n 12
+curl -sI -H 'Host: transparencia.unlar.edu.ar' http://127.0.0.1/ | head -n 3
+curl -skI https://127.0.0.1/ ; echo "salida: $?"
+```
+
+1. `HTTP/2 200` con los headers de seguridad (`strict-transport-security`, `content-security-policy`, `cache-control: no-cache`).
+2. `301` hacia `https://transparencia.unlar.edu.ar/`.
+3. Error de handshake (salida distinta de 0): pedir por IP no devuelve nada.
+
+Desde la PC (PowerShell), la misma prueba a través de Internet y validando el certificado de verdad:
+
+```powershell
+curl.exe -sI --resolve transparencia.unlar.edu.ar:443:<IP_VM> https://transparencia.unlar.edu.ar/
 ```
 
 ## 9. fail2ban para SSH
