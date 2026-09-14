@@ -18,11 +18,22 @@ Durante la instalación: marcar **OpenSSH server** y crear el usuario administra
 ## 2. Base del sistema
 
 ```bash
-sudo apt update && sudo apt full-upgrade -y
+sudo apt update && sudo apt full-upgrade -y 
 sudo apt install -y qemu-guest-agent unattended-upgrades fail2ban
-sudo systemctl enable --now qemu-guest-agent
+    # qemu permite que el sistema operativo invitado se comunique con el hipervisor QEMU/Proxmox.
+    # unattended-upgrades actualizaciones automáticas de seguridad (y otras).
+    # fail2ban protección contra determinados ataques automatizados
+sudo systemctl start qemu-guest-agent
+systemctl status qemu-guest-agent   # tiene que decir "active (running)"
+    # El agente NO se habilita con "enable": es una unidad estática que arranca sola
+    # cuando existe /dev/virtio-ports/org.qemu.guest_agent.0 (lo crea Proxmox).
+    # Si no arranca: VM → Options → QEMU Guest Agent → Enabled, y apagar/encender
+    # la VM desde Proxmox (un reboot desde Ubuntu no agrega el dispositivo).
+    # Verificación desde el host: la IP aparece en el Summary, o `qm agent <VMID> ping`.
 sudo hostnamectl set-hostname transparencia
+    # Cambia el nombre del servidor a transparencia
 sudo timedatectl set-timezone America/Argentina/La_Rioja
+    #Zona horarioa
 sudo dpkg-reconfigure -plow unattended-upgrades   # responder "Sí"
 ```
 
@@ -34,9 +45,21 @@ Desde tu PC (PowerShell o Git Bash):
 ssh-keygen -t ed25519 -C "<admin>@ssi-unlar"   # si todavía no tenés clave
 ```
 
-Copiar el contenido de `~/.ssh/id_ed25519.pub` al archivo `~/.ssh/authorized_keys` del usuario `<admin>` en la VM (en Linux/Git Bash alcanza con `ssh-copy-id <admin>@<IP_VM>`).
+Cargar la clave pública en la VM (todavía entra con contraseña). En PowerShell, `ssh-copy-id` no existe; el equivalente es:
 
-En la VM, crear `/etc/ssh/sshd_config.d/99-hardening.conf` con este contenido:
+```powershell
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh <admin>@<IP_VM> "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+```
+
+Probar que entra **sin pedir contraseña** antes de seguir:
+
+```powershell
+ssh <admin>@<IP_VM>
+```
+
+En la VM, crear `/etc/ssh/sshd_config.d/00-hardening.conf` con este contenido:
+
+> ⚠️ **El nombre empieza con `00-` a propósito.** En sshd vale la *primera* definición de cada opción, y los archivos se leen en orden alfabético. Ubuntu suele traer `50-cloud-init.conf` con `PasswordAuthentication yes`: un `99-hardening.conf` quedaría ignorado sin ningún error.
 
 ```
 PermitRootLogin no
@@ -51,6 +74,20 @@ Aplicar:
 sudo sshd -t && sudo systemctl restart ssh
 ```
 
+Verificar la configuración **efectiva** (no la del archivo):
+
+```bash
+sudo sshd -T | grep -Ei '^(permitrootlogin|passwordauthentication|kbdinteractiveauthentication|maxauthtries)'
+```
+
+Tiene que mostrar `permitrootlogin no`, `passwordauthentication no`, `kbdinteractiveauthentication no` y `maxauthtries 3`.
+
+> ⚠️ **`sshd -T` lee los archivos, no el proceso que está corriendo.** Si el servicio no se recargó después del último cambio, el archivo dice `no` y el servidor sigue aceptando contraseñas (nos pasó el 12/09). Después de **cada** cambio: `sudo sshd -t && sudo systemctl reload ssh`, y hacer la prueba real desde la PC, que tiene que responder `Permission denied (publickey)`:
+>
+> ```powershell
+> ssh -p <PUERTO_SSH> -o PubkeyAuthentication=no -o PreferredAuthentications=password <admin>@<IP_VM>
+> ```
+
 ⚠️ **Antes de cerrar la sesión actual, abrí otra y comprobá que entrás con la clave.** Si algo falla, todavía tenés la primera abierta para corregirlo.
 
 ## 4. Firewall (UFW)
@@ -60,12 +97,25 @@ sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
-sudo ufw allow from <RED_ADMIN_INTERNA/24> to any port 22 proto tcp   # SSH solo desde la red de la SSI
+sudo ufw allow from <RED_ADMIN_INTERNA/24> to any port <PUERTO_SSH> proto tcp comment 'SSH desde SSI'
 sudo ufw enable
 sudo ufw status verbose
 ```
 
-Agregar la VM en el firewall perimetral de la DMZ, con 80 y 443 abiertos desde Internet y 22 solo desde la red interna. Actualizar `listado_DMZ.txt`.
+> ⚠️ **Antes de aplicar, en la sesión SSH corré `echo $SSH_CLIENT`.** Muestra `IP_origen puerto_origen puerto_servidor`. La regla de SSH tiene que incluir **esa IP de origen** (si el perimetral hace NAT puede no ser la de tu PC) y **ese puerto** (en esta VM SSH escucha en `55533`, no en 22). Si no coinciden, te quedás afuera.
+
+> 💡 **La VM tiene IP pública en su interfaz (sin NAT delante), así que UFW es la barrera principal.** Desde la oficina de la SSI la conexión llega con la **IP pública de salida de la UNLaR**, no con una IP interna. Para averiguarla sin servicios externos: intentar conectarse y ver en la VM `sudo journalctl -k --since "10 min ago" | grep 'DPT=55533'` → campo `SRC=`. Si te quedaste afuera, entrá por la consola de Proxmox, que no pasa por UFW.
+
+**Decisión (14/09/2026, Pablo):** SSH permitido solo desde la **IP pública de salida de la UNLaR**. La regla temporal de la IP de casa ya se quitó. Mejora a futuro: una IP de salida exclusiva de la SSI o una VPN, porque la IP de salida es compartida por toda la red de la universidad.
+
+Para cambiar una regla, **primero agregar la nueva y probar que entra, después borrar la vieja**:
+
+```bash
+sudo ufw status numbered
+sudo ufw delete <N>
+```
+
+Agregar la VM en el firewall perimetral (si corresponde), con 80 y 443 abiertos desde Internet y `<PUERTO_SSH>` solo desde la IP de la UNLaR. Actualizar `listado_DMZ.txt`.
 
 ## 5. Usuario de deploy (sin sudo)
 
@@ -160,9 +210,12 @@ Crear `/etc/fail2ban/jail.d/sshd.local`:
 ```
 [sshd]
 enabled = true
+port = 55533
 maxretry = 5
 bantime = 1h
 ```
+
+> `port` tiene que coincidir con el puerto real de SSH. Por defecto el jail bloquea el 22: con SSH en otro puerto detectaría los ataques pero bloquearía el puerto equivocado.
 
 Aplicar y verificar:
 
@@ -192,6 +245,20 @@ Revisar también en el navegador que el candado no muestre advertencias.
 ## 11. Publicar el sitio desde la PC
 
 El build se hace en la PC de desarrollo; a la VM viaja solamente el resultado (`dist/`). Así la VM no necesita Node, npm ni el repositorio: menos software instalado en la DMZ, menos superficie de ataque.
+
+### Preparación (una sola vez por PC)
+
+SSH escucha en el puerto `55533`. Para que `ssh`, `scp` y los scripts lo usen sin tener que indicarlo cada vez, crear o editar `%USERPROFILE%\.ssh\config` en la PC que publica:
+
+```
+Host transparencia
+    HostName <IP_VM>
+    Port 55533
+    User deploy
+    IdentityFile ~/.ssh/id_ed25519
+```
+
+Probar con `ssh transparencia`. Desde ahí, en todos los comandos de abajo `deploy@<IP_VM>` se reemplaza por `transparencia`.
 
 ### Con el script (lo habitual)
 
