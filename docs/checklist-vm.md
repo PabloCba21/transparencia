@@ -15,6 +15,49 @@ Reemplazá los valores entre `<...>`. Los pasos 1–5 son para el viernes 11, lo
 
 Durante la instalación: marcar **OpenSSH server** y crear el usuario administrador `<admin>` (no uses root).
 
+## 1b. Si la VM sale de una plantilla de Proxmox
+
+> **Así se creó esta VM (14/09/2026).** La plantilla venía de un servidor llamado `dacefyn`: SSH ya escuchaba en el 55533 y el journal tenía logs suyos de 2025. Un clon hereda la **identidad** del original: las claves de host SSH (se lo podría suplantar), el `machine-id`, usuarios, claves autorizadas y logs. Antes de ponerlo en producción hay que auditarlo y limpiarlo.
+
+**Auditoría (solo lectura).** Revisar: usuarios con login y grupo `sudo`, `sudoers.d`, **todos** los `authorized_keys` (`sudo find /root /home -name authorized_keys -exec ssh-keygen -lf {} \;`), puertos (`sudo ss -tlnup`), servicios, timers y cron, rastros del nombre original (`sudo grep -rIl <nombre_original> /etc`) y el historial de `root`. Un historial puede tener contraseñas: se revisa, no se comparte.
+
+**Limpieza.** Con una sesión SSH abierta y la consola de Proxmox a mano:
+
+```bash
+# Claves de host propias
+sudo rm /etc/ssh/ssh_host_*
+sudo ssh-keygen -A
+sudo sshd -t && sudo systemctl restart ssh
+ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub     # anotar la huella
+
+# machine-id nuevo (antes confirmar IP estática: si usa DHCP, la IP puede cambiar)
+sudo grep -rnE 'dhcp4|addresses' /etc/netplan/
+sudo rm -f /etc/machine-id /var/lib/dbus/machine-id
+sudo systemd-machine-id-setup
+sudo ln -sf /etc/machine-id /var/lib/dbus/machine-id
+
+# Nombre del equipo y metadatos de LVM
+sudo sed -i 's/\b<nombre_original>\b/transparencia/g' /etc/hosts
+sudo vgcfgbackup
+
+sudo reboot
+```
+
+En cada PC que se conecta, olvidar la identidad vieja y **aceptar la nueva solo si la huella coincide** con la anotada:
+
+```bash
+ssh-keygen -R "[<IP_VM>]:<PUERTO_SSH>"
+```
+
+Después del reinicio, con los servicios verificados, borrar el journal del `machine-id` viejo:
+
+```bash
+cat /etc/machine-id; ls /var/log/journal/
+sudo rm -rf /var/log/journal/<machine-id-viejo>
+```
+
+Criterio: ante accesos dudosos, **bloquear o renombrar en vez de borrar**. Se revierte en segundos, y lo que sobra se borra después del lanzamiento.
+
 ## 2. Base del sistema
 
 ```bash

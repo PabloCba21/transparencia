@@ -54,7 +54,7 @@ Una sección sin contenido se publica igual con la leyenda *"Información en pro
 | Día | Infraestructura (equipo SSI) | Sitio |
 |---|---|---|
 | **Vie 11** | Crear la VM y hacer el hardening base ([checklist](docs/checklist-vm.md), pasos 1–5) | ✅ Proyecto, git, plan, relevamiento de identidad · ✅ Layout institucional, home y 9 páginas de sección |
-| **Lun 14** | Nginx y certificado (pasos 6–9) | Páginas de las 9 secciones y esquema de documentos; cargar el contenido recibido |
+| **Lun 14** | ✅ Nginx, certificado y fail2ban (pasos 6–9) · ✅ Limpieza del clon de plantilla (paso 1b) · ✅ Verificado desde Internet | Páginas de las 9 secciones y esquema de documentos; cargar el contenido recibido |
 | **Mar 15** | Deploy de staging por IP interna (paso 10) | **Revisión con Legal y Técnica**; pruebas en celular y accesibilidad |
 | **Mié 16** | DNS público → producción (paso 11) | Verificación final: SSL Labs, headers, links, PDFs |
 
@@ -72,3 +72,10 @@ Una sección sin contenido se publica igual con la leyenda *"Información en pro
 - Script en **Python** que convierta planillas Excel a tablas publicables.
 - ~~Script de deploy con releases y rollback.~~ ✅ `deploy/publicar.ps1` y `deploy/revertir.ps1` (11/09/2026).
 - Subir el repo a GitHub y automatizar el build (CI).
+
+### Infraestructura (después del 16/09)
+
+- **Generalizar la plantilla de Proxmox.** Hoy tiene la identidad del servidor `dacefyn`, y todo clon hereda sus claves de host SSH, `machine-id` y logs. Antes de convertirla en plantilla: borrar claves de host y `machine-id` (se regeneran en el primer arranque), limpiar logs e historiales, y cargar usuario y clave en cada clon con cloud-init. **Revisar otras VMs clonadas de la misma plantilla:** comparten claves de host.
+- **Desactivar servicios que no se usan en una VM** (ModemManager, multipathd, udisks2, upower, fwupd, snapd, motd-news). No escuchan en la red, pero ocupan memoria y suman paquetes que actualizar.
+- **SSH con IP de salida exclusiva de la SSI o VPN.** Hoy se permite la IP pública de la UNLaR, compartida por toda la universidad.
+- Borrar `/root/.ssh/authorized_keys` (vacío) y los directorios heredados de la plantilla en `/root`.
