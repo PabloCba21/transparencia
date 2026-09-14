@@ -70,7 +70,9 @@ try {
 	$paquete = Join-Path $env:TEMP $nombrePaquete
 
 	Paso "Empaquetando la release $release"
-	tar -czf $paquete -C $dist .
+	# --no-fflags: no guardar atributos de archivo de Windows (el tar de Linux
+	# no los entiende y avisa "Ignoring unknown extended header keyword").
+	tar --no-fflags -czf $paquete -C $dist .
 	if ($LASTEXITCODE -ne 0) { throw 'No se pudo generar el paquete.' }
 	Ok ('{0:N1} KB' -f ((Get-Item $paquete).Length / 1KB))
 
