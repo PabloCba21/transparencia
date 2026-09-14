@@ -54,7 +54,7 @@ Una sección sin contenido se publica igual con la leyenda *"Información en pro
 | Día | Infraestructura (equipo SSI) | Sitio |
 |---|---|---|
 | **Vie 11** | Crear la VM y hacer el hardening base ([checklist](docs/checklist-vm.md), pasos 1–5) | ✅ Proyecto, git, plan, relevamiento de identidad · ✅ Layout institucional, home y 9 páginas de sección |
-| **Lun 14** | ✅ Nginx, certificado y fail2ban (pasos 6–9) · ✅ Limpieza del clon de plantilla (paso 1b) · ✅ Verificado desde Internet | Páginas de las 9 secciones y esquema de documentos; cargar el contenido recibido |
+| **Lun 14** | ✅ Nginx, certificado y fail2ban (pasos 6–9) · ✅ Limpieza del clon de plantilla (paso 1b) · ✅ Verificado desde Internet | ✅ Primera publicación en la VM · ✅ Esquema de documentos validado en el build ([guía](docs/cargar-documentos.md)) · ⏳ Contenido: todavía no llegó |
 | **Mar 15** | Deploy de staging por IP interna (paso 10) | **Revisión con Legal y Técnica**; pruebas en celular y accesibilidad |
 | **Mié 16** | DNS público → producción (paso 11) | Verificación final: SSL Labs, headers, links, PDFs |
 

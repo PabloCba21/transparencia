@@ -312,6 +312,71 @@ main {
 	color: var(--texto-suave);
 }
 
+.tarjeta .tarjeta__estado {
+	margin-top: 0.75rem;
+	padding-top: 0.6rem;
+	border-top: 1px solid var(--borde-suave);
+	font-size: 0.85rem;
+}
+
+/* --- Documentos de una sección -------------------------------------------- */
+.actualizacion {
+	font-size: 0.9rem;
+	color: var(--texto-suave);
+}
+
+.anio {
+	margin-top: 2.25rem;
+	max-width: 52rem;
+}
+
+/* El año funciona como separador: línea debajo para escanear rápido la lista */
+.anio h2 {
+	padding-bottom: 0.4rem;
+	border-bottom: 2px solid var(--azul);
+}
+
+.documentos {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.documento {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--borde-suave);
+}
+
+.documento__titulo {
+	font-weight: 600;
+	font-size: 1.05rem;
+}
+
+.documento__archivo {
+	font-weight: 400;
+	font-size: 0.9rem;
+	white-space: nowrap;
+}
+
+.documento__descripcion {
+	margin: 0.3rem 0 0;
+}
+
+/* Tipo · fecha · expediente, separados con un punto medio que no lee el lector de pantalla */
+.documento__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.2rem 0;
+	margin: 0.3rem 0 0;
+	font-size: 0.875rem;
+	color: var(--texto-suave);
+}
+
+.documento__meta span + span::before {
+	content: '·' / ''; /* el texto alternativo vacío hace que no se lea en voz alta */
+	margin-inline: 0.5rem;
+}
+
 /* --- Aviso de sección sin contenido --------------------------------------- */
 .aviso {
 	background: var(--fondo-alterno);

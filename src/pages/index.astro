@@ -1,6 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import { secciones } from '../data/secciones';
+import { contenidoDeSeccion, validarArchivosDeSecciones } from '../lib/documentos';
+import { formatearFechaCorta } from '../lib/fechas';
+
+await validarArchivosDeSecciones();
+
+// Estado de cada sección para mostrarlo en su tarjeta
+const tarjetas = await Promise.all(
+	secciones.map(async (seccion) => ({ seccion, contenido: await contenidoDeSeccion(seccion.slug) })),
+);
 
 const descripcion =
 	'Información pública sobre el manejo de fondos de la Universidad Nacional de La Rioja: presupuesto, ejecución, compras, convenios, auditorías y normativa.';
@@ -24,12 +33,23 @@ const descripcion =
 	<h2 class="visualmente-oculto" id="secciones">Secciones</h2>
 	<ul class="grilla" aria-labelledby="secciones">
 		{
-			secciones.map((seccion) => (
+			tarjetas.map(({ seccion, contenido }) => (
 				<li class="tarjeta">
 					<h2>
 						<a href={`/${seccion.slug}/`}>{seccion.titulo}</a>
 					</h2>
 					<p>{seccion.descripcion}</p>
+					{/* Estado de la sección: la persona sabe si vale la pena entrar antes de hacer clic */}
+					<p class="tarjeta__estado">
+						{contenido.documentos.length === 0 ? (
+							<>En proceso de actualización</>
+						) : (
+							<>
+								{contenido.documentos.length} {contenido.documentos.length === 1 ? 'documento' : 'documentos'} ·
+								Actualizado el <time datetime={contenido.ultimaActualizacion}>{formatearFechaCorta(contenido.ultimaActualizacion)}</time>
+							</>
+						)}
+					</p>
 				</li>
 			))
 		}

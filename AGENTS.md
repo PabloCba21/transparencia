@@ -17,6 +17,11 @@ Sitio estático con Astro 7 para https://transparencia.unlar.edu.ar. El plan, la
 - `.\deploy\publicar.ps1 -Servidor deploy@<IP_VM>`: compila y publica en la VM (releases + symlink)
 - `.\deploy\revertir.ps1 -Listar` / `.\deploy\revertir.ps1`: ver releases y volver a la anterior
 
+## Contenido
+- Documentos por sección en `src/content/documentos/<slug>.yaml`, validados por `src/content.config.ts`. Los PDFs van en `public/documentos/<slug>/<año>/`.
+- Guía para el equipo: [docs/cargar-documentos.md](docs/cargar-documentos.md).
+- Nunca inventar contenido institucional (documentos, contactos, procedimientos): lo entregan las áreas y lo valida Legal y Técnica. Para pruebas, usar ejemplos marcados como tales y no commitearlos.
+
 ## Development
 
 When starting the dev server, use background mode:

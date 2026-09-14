@@ -11,3 +11,9 @@ export function formatearFecha(iso: string): string {
 		year: 'numeric',
 	});
 }
+
+/** Formatea una fecha AAAA-MM-DD como "11/09/2026". */
+export function formatearFechaCorta(iso: string): string {
+	const [anio, mes, dia] = iso.split('-');
+	return `${dia}/${mes}/${anio}`;
+}
