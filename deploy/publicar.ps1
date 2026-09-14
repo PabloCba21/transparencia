@@ -93,6 +93,11 @@ mkdir -p "$DESTINO/releases/$RELEASE"
 tar -xzf "$PAQUETE" -C "$DESTINO/releases/$RELEASE"
 rm -f "$PAQUETE"
 
+# El tar de Windows guarda permisos 666/777 y deja la raíz en 555 (sin escritura).
+# Se normalizan a carpetas 755 y archivos 644: Nginx lee todo, nadie más escribe,
+# y deploy puede borrar la release cuando rote (con 555 fallaría el rm).
+chmod -R u=rwX,go=rX "$DESTINO/releases/$RELEASE"
+
 test -f "$DESTINO/releases/$RELEASE/index.html"
 
 # -n evita que el symlink se cree ADENTRO de la carpeta vieja
