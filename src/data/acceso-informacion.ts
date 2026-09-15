@@ -23,13 +23,16 @@ export interface DatosAccesoInformacion {
 	textosValidados: boolean;
 }
 
+// Datos entregados por Legal y Técnica el 15/09/2026
 export const accesoInformacion: DatosAccesoInformacion = {
-	correo: null,
-	lugarPresencial: null,
-	horario: null,
-	responsable: null,
-	confirmacion: null,
-	textosValidados: false,
+	correo: 'transparencia@unlar.edu.ar',
+	lugarPresencial:
+		'Mesa de Entradas y Salidas, Edificio Rectorado, planta baja. Ciudad Universitaria de la Ciencia y la Técnica, Luis M. de La Fuente S/N.',
+	horario: 'de 08:00 a 13:00 y de 15:00 a 20:00',
+	responsable: 'Abogado Facundo Ruiz de Los Llanos',
+	confirmacion:
+		'Si la presentás en persona, recibís un número de expediente. Si la enviás por correo electrónico, recibís un número de trámite interno.',
+	textosValidados: true,
 };
 
 /** Lista legible de lo que falta, para el aviso de la página y el error del build. */

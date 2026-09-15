@@ -82,7 +82,7 @@ if (import.meta.env.PROD && pendientes.length > 0 && process.env.PERMITIR_PENDIE
 				<dt>En persona</dt>
 				<dd>
 					{datos.lugarPresencial ?? <Pendiente dato="oficina y dirección" />}
-					<span class="lateral__nota">{datos.horario ?? <Pendiente dato="horario" />}</span>
+					<span class="lateral__nota">Horario: {datos.horario ?? <Pendiente dato="horario" />}</span>
 				</dd>
 			</dl>
 

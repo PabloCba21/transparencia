@@ -199,9 +199,11 @@ const LARGO_MAXIMO = 1500; // el texto viaja dentro de un link mailto:, que tien
 
 			<div class="via">
 				<h3>Presentarla en persona</h3>
-				<p>
-					Imprimí la solicitud, firmala y llevala a{' '}
-					{datos.lugarPresencial ?? <Pendiente dato="oficina y dirección" />}.
+				<p>Imprimí la solicitud, firmala y presentala en:</p>
+				<p class="via__lugar">
+					{datos.lugarPresencial ?? <Pendiente dato="oficina y dirección" />}
+					<br />
+					Horario: {datos.horario ?? <Pendiente dato="horario" />}
 				</p>
 				<button type="button" class="boton boton--secundario" data-imprimir>Imprimir</button>
 			</div>

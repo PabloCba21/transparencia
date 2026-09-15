@@ -21,7 +21,7 @@ Se cargan en un solo archivo: `src/data/acceso-informacion.ts`.
 |---|---|---|
 | `correo` | Correo que recibe las solicitudes | `'accesoinformacion@unlar.edu.ar'` |
 | `lugarPresencial` | Oficina y dirección | `'Mesa de Entradas, edificio ..., Av. ...'` |
-| `horario` | Días y horario de atención | `'Lunes a viernes de 8 a 13'` |
+| `horario` | Días y horario de atención (la página antepone "Horario:") | `'de 08:00 a 13:00'` |
 | `responsable` | Nombre y cargo del responsable designado (art. 30, Ley 27.275) | `'Nombre Apellido, cargo'` |
 | `confirmacion` | Qué recibe la persona al presentar la solicitud | `'Te enviamos por correo el número de expediente.'` |
 | `textosValidados` | `true` cuando Legal y Técnica aprobó los textos legales de la página | `true` |

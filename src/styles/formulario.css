@@ -345,6 +345,12 @@ textarea:focus-visible {
 	margin-bottom: 0.3rem;
 }
 
+.via__lugar {
+	border-left: 3px solid var(--borde);
+	padding-left: 0.8rem;
+	font-size: 0.95rem;
+}
+
 .via--destacada {
 	border: 2px solid var(--azul);
 }
