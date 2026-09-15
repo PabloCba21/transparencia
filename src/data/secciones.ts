@@ -27,7 +27,7 @@ export const secciones: Seccion[] = [
 		slug: 'presupuesto',
 		titulo: 'Presupuesto asignado',
 		tituloCorto: 'Presupuesto',
-		descripcion: 'Presupuesto anual asignado a la Universidad y su distribución por finalidad.',
+		descripcion: 'Presupuesto anual asignado a la Universidad Nacional de La Rioja y su distribución por finalidad.',
 	},
 	{
 		slug: 'ejecucion-presupuestaria',
