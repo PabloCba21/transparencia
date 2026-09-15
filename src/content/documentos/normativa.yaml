@@ -3,9 +3,16 @@
 # revisado: última vez que se consultó al área si hay información nueva.
 # Mientras la lista esté vacía, la página muestra "Información en proceso de
 # actualización" con esta fecha.
-revisado: 2026-09-14
+revisado: 2026-09-15
 
-documentos: []
+documentos:
+  - titulo: Resolución 378/2016 — Implementación de la transparencia activa
+    fecha: 2016-10-03
+    publicado: 2026-09-15
+    tipo: Resolución
+    archivo: 2016/resolucion-378-2016-transparencia-activa.pdf
+    expediente: 00-08172-2016
+    descripcion: Implementación Transparencia Activa.
 
 # Ejemplo (el PDF va en public/documentos/<sección>/2026/nombre-del-archivo.pdf):
 #
