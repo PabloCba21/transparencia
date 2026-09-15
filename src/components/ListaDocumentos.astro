@@ -1,0 +1,44 @@
+---
+import { formatearFecha } from '../lib/fechas';
+import { agruparPorAnio, formatearTamano, type Documento } from '../lib/documentos';
+
+interface Props {
+	documentos: Documento[];
+	/** Nivel del título de cada año: 2 en una página de sección, 3 si va debajo de otro h2 */
+	nivel?: 2 | 3;
+}
+
+const { documentos, nivel = 2 } = Astro.props;
+const TituloAnio = nivel === 3 ? 'h3' : 'h2';
+const grupos = agruparPorAnio(documentos);
+---
+
+{
+	grupos.map(([anio, docs]) => (
+		<section class="anio" aria-labelledby={`anio-${anio}`}>
+			<TituloAnio class="anio__titulo" id={`anio-${anio}`}>
+				{anio}
+			</TituloAnio>
+			<ul class="documentos">
+				{docs.map((doc) => (
+					<li class="documento">
+						{/* El formato y el tamaño van DENTRO del link: el lector de pantalla
+						    anuncia qué se va a abrir antes de hacer clic (WCAG 2.4.4) */}
+						<a class="documento__titulo" href={doc.url}>
+							{doc.titulo}{' '}
+							<span class="documento__archivo">(PDF, {formatearTamano(doc.bytes)})</span>
+						</a>
+						{doc.descripcion && <p class="documento__descripcion">{doc.descripcion}</p>}
+						<p class="documento__meta">
+							<span>{doc.tipo}</span>
+							<span>
+								<time datetime={doc.fecha}>{formatearFecha(doc.fecha)}</time>
+							</span>
+							{doc.expediente && <span>Expte. {doc.expediente}</span>}
+						</p>
+					</li>
+				))}
+			</ul>
+		</section>
+	))
+}

@@ -1,0 +1,13 @@
+---
+// Marca un dato institucional que todavía no entregó el área responsable.
+// El build de producción no deja publicar la página mientras quede alguno
+// (ver src/data/acceso-informacion.ts).
+interface Props {
+	/** Qué falta, en pocas palabras */
+	dato: string;
+}
+
+const { dato } = Astro.props;
+---
+
+<mark class="pendiente">Pendiente: {dato}</mark>

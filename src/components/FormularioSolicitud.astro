@@ -1,0 +1,234 @@
+---
+/**
+ * Formulario de solicitud de acceso a la información pública.
+ *
+ * El sitio es estático: el formulario NO envía datos a ningún servidor. Arma en
+ * el navegador el texto de la solicitud y la persona la presenta por correo
+ * (botón que abre su programa de correo, o copiando el texto) o en persona
+ * (imprimiéndola). Por eso tiene dos pasos y el botón dice "Continuar", no
+ * "Enviar": nadie tiene que creer que ya la mandó.
+ */
+import Pendiente from './Pendiente.astro';
+import { secciones } from '../data/secciones';
+import { accesoInformacion as datos } from '../data/acceso-informacion';
+import '../styles/formulario.css';
+
+const temas = secciones.filter((seccion) => seccion.slug !== 'acceso-a-la-informacion');
+const LARGO_MAXIMO = 1500; // el texto viaja dentro de un link mailto:, que tiene límite de largo
+---
+
+<div class="solicitud" data-solicitud data-correo={datos.correo ?? ''} hidden>
+	<ol class="pasos" aria-label="Pasos de la solicitud">
+		<li class="pasos__item" data-paso="1" aria-current="step">
+			<span class="pasos__num" aria-hidden="true">1</span> Completá tus datos
+		</li>
+		<li class="pasos__item" data-paso="2">
+			<span class="pasos__num" aria-hidden="true">2</span> Enviá la solicitud
+		</li>
+	</ol>
+
+	<!-- Paso 1: formulario -->
+	<section data-paso-contenido="1" aria-labelledby="titulo-formulario">
+		<h2 id="titulo-formulario" class="solicitud__titulo">Formulario de solicitud</h2>
+		<p class="nota">Todos los campos son obligatorios, salvo los marcados como <em>opcional</em>.</p>
+
+		<div class="resumen-errores" data-resumen tabindex="-1" hidden>
+			<h3>Revisá estos datos antes de continuar:</h3>
+			<ul></ul>
+		</div>
+
+		<form data-formulario novalidate>
+			<fieldset class="bloque">
+				<legend>¿Quién hace la solicitud?</legend>
+
+				<div class="opciones opciones--fila">
+					<label class="opcion"><input type="radio" name="tipo" value="fisica" checked /> Una persona</label>
+					<label class="opcion">
+						<input type="radio" name="tipo" value="juridica" /> Una organización o empresa
+					</label>
+				</div>
+
+				<div data-tipo="fisica">
+					<div class="campo">
+						<label for="nombre">Nombre y apellido</label>
+						<input id="nombre" name="nombre" type="text" autocomplete="name" aria-describedby="nombre-error" />
+						<p class="campo__error" id="nombre-error"></p>
+					</div>
+					<div class="campo campo--corto">
+						<label for="dni">DNI</label>
+						<p class="campo__ayuda" id="dni-ayuda">Solo números, sin puntos.</p>
+						<input
+							id="dni"
+							name="dni"
+							type="text"
+							inputmode="numeric"
+							autocomplete="off"
+							aria-describedby="dni-ayuda dni-error"
+						/>
+						<p class="campo__error" id="dni-error"></p>
+					</div>
+				</div>
+
+				<div data-tipo="juridica" hidden>
+					<div class="campo">
+						<label for="razon">Razón social</label>
+						<input id="razon" name="razon" type="text" autocomplete="organization" aria-describedby="razon-error" />
+						<p class="campo__error" id="razon-error"></p>
+					</div>
+					<div class="campo campo--corto">
+						<label for="cuit">CUIT</label>
+						<p class="campo__ayuda" id="cuit-ayuda">11 números, con o sin guiones.</p>
+						<input
+							id="cuit"
+							name="cuit"
+							type="text"
+							inputmode="numeric"
+							autocomplete="off"
+							aria-describedby="cuit-ayuda cuit-error"
+						/>
+						<p class="campo__error" id="cuit-error"></p>
+					</div>
+					<div class="campo">
+						<label for="representante">Nombre de quien la presenta</label>
+						<input
+							id="representante"
+							name="representante"
+							type="text"
+							autocomplete="name"
+							aria-describedby="representante-error"
+						/>
+						<p class="campo__error" id="representante-error"></p>
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset class="bloque">
+				<legend>¿Cómo te respondemos?</legend>
+				<div class="campo">
+					<label for="correo">Correo electrónico</label>
+					<p class="campo__ayuda" id="correo-ayuda">A esta dirección llegará la respuesta.</p>
+					<input id="correo" name="correo" type="email" autocomplete="email" aria-describedby="correo-ayuda correo-error" />
+					<p class="campo__error" id="correo-error"></p>
+				</div>
+				<div class="campo campo--corto">
+					<label for="telefono">Teléfono <span class="opcional">(opcional)</span></label>
+					<input id="telefono" name="telefono" type="tel" autocomplete="tel" />
+				</div>
+			</fieldset>
+
+			<fieldset class="bloque">
+				<legend>¿Qué información necesitás?</legend>
+				<div class="campo">
+					<label for="tema">Tema <span class="opcional">(opcional)</span></label>
+					<select id="tema" name="tema">
+						<option value="">No estoy seguro / otro tema</option>
+						{temas.map((seccion) => <option>{seccion.titulo}</option>)}
+					</select>
+				</div>
+				<div class="campo">
+					<label for="detalle">Describí la información que pedís</label>
+					<p class="campo__ayuda" id="detalle-ayuda">
+						Cuanto más precisa sea, más rápido te podemos responder. Por ejemplo: qué documento o dato buscás, de
+						qué dependencia y de qué período.
+					</p>
+					<textarea
+						id="detalle"
+						name="detalle"
+						rows="6"
+						maxlength={LARGO_MAXIMO}
+						aria-describedby="detalle-ayuda detalle-contador detalle-error"></textarea>
+					<p class="campo__contador" id="detalle-contador" data-contador aria-live="polite">
+						Quedan {LARGO_MAXIMO} caracteres
+					</p>
+					<p class="campo__error" id="detalle-error"></p>
+				</div>
+				<fieldset class="sub">
+					<legend>¿Cómo preferís recibirla?</legend>
+					<div class="opciones">
+						<label class="opcion">
+							<input type="radio" name="formato" value="Digital, por correo electrónico" checked /> Digital, por correo
+							electrónico
+						</label>
+						<label class="opcion">
+							<input type="radio" name="formato" value="Copia en papel" /> Copia en papel
+							<span class="opcional">(puede tener costo)</span>
+						</label>
+					</div>
+				</fieldset>
+			</fieldset>
+
+			<div class="campo campo--check">
+				<label class="opcion">
+					<input type="checkbox" id="acepto" name="acepto" aria-describedby="acepto-error" />
+					<span>
+						Entiendo que la Universidad usará mis datos solo para tramitar y responder esta solicitud, según la Ley
+						25.326 de Protección de Datos Personales.
+						{!datos.textosValidados && <Pendiente dato="validar este texto" />}
+					</span>
+				</label>
+				<p class="campo__error" id="acepto-error"></p>
+			</div>
+
+			<div class="acciones">
+				<button type="submit" class="boton boton--primario">Continuar</button>
+				<p class="nota">En el paso siguiente revisás la solicitud y elegís cómo enviarla.</p>
+			</div>
+		</form>
+	</section>
+
+	<!-- Paso 2: envío -->
+	<section data-paso-contenido="2" aria-labelledby="titulo-envio" hidden>
+		<h2 id="titulo-envio" class="solicitud__titulo" tabindex="-1">Tu solicitud está lista para enviar</h2>
+		<p class="alerta"><strong>Todavía no fue enviada.</strong> Elegí una de estas opciones para presentarla.</p>
+
+		<h3 class="solicitud__subtitulo">Revisá el texto</h3>
+		<pre class="vista-previa" data-vista-previa tabindex="0" aria-label="Texto de la solicitud"></pre>
+
+		<div class="vias">
+			<div class="via via--destacada">
+				<h3>Enviarla por correo electrónico</h3>
+				<p>Se abre tu programa de correo con el texto listo. Solo tenés que tocar <em>Enviar</em>.</p>
+				<a class="boton boton--primario" href="#" data-abrir-correo>Abrir mi correo</a>
+				<p class="via__alternativa">
+					¿No se abrió nada o usás Gmail u Outlook en el navegador?
+					<button type="button" class="enlace" data-copiar>Copiá el texto</button>
+					y pegalo en un correo a {datos.correo ? <strong>{datos.correo}</strong> : <Pendiente dato="correo" />}.
+				</p>
+				<p class="copiado" data-copiado role="status"></p>
+			</div>
+
+			<div class="via">
+				<h3>Presentarla en persona</h3>
+				<p>
+					Imprimí la solicitud, firmala y llevala a{' '}
+					{datos.lugarPresencial ?? <Pendiente dato="oficina y dirección" />}.
+				</p>
+				<button type="button" class="boton boton--secundario" data-imprimir>Imprimir</button>
+			</div>
+		</div>
+
+		<p><button type="button" class="enlace" data-editar>← Volver y corregir datos</button></p>
+
+		<div class="despues">
+			<h3>¿Qué pasa después?</h3>
+			<ol>
+				<li>{datos.confirmacion ?? <Pendiente dato="qué recibe la persona al presentar la solicitud" />}</li>
+				<li>La Universidad tiene 15 días hábiles para responderte.</li>
+				<li>Si necesita más tiempo, puede extender el plazo otros 15 días hábiles y te lo tiene que avisar.</li>
+			</ol>
+		</div>
+	</section>
+</div>
+
+<noscript>
+	<p class="aviso">
+		<strong>El formulario necesita JavaScript.</strong>
+		<span class="aviso__fecha">Podés presentar tu solicitud por correo electrónico o en persona, como se indica en esta página.</span>
+	</p>
+</noscript>
+
+<script>
+	import { iniciarSolicitud } from '../scripts/solicitud';
+
+	iniciarSolicitud();
+</script>

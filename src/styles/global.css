@@ -331,7 +331,7 @@ main {
 }
 
 /* El año funciona como separador: línea debajo para escanear rápido la lista */
-.anio h2 {
+.anio__titulo {
 	padding-bottom: 0.4rem;
 	border-bottom: 2px solid var(--azul);
 }
@@ -395,6 +395,18 @@ main {
 	margin-top: 0.35rem;
 	font-size: 0.9rem;
 	color: var(--texto-suave);
+}
+
+/* --- Dato institucional pendiente ------------------------------------------
+   Solo aparece en desarrollo o en staging: el build de producción falla si
+   queda alguno (ver src/components/Pendiente.astro). */
+.pendiente {
+	background: #fff3b0;
+	color: #3d3200;
+	border: 1px dashed #8a7400;
+	border-radius: 3px;
+	padding: 0 0.3em;
+	font-size: 0.9em;
 }
 
 /* --- Pie ------------------------------------------------------------------ */

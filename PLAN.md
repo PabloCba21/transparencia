@@ -16,6 +16,7 @@
 | TLS | Wildcard institucional `*.unlar.edu.ar` (Sectigo) | Ya cubre el subdominio. **Vence el 22/10/2026** |
 | Repositorio | Git local (después, GitHub) | — |
 | Identidad visual | La de www.unlar.edu.ar | Ver [docs/identidad-visual.md](docs/identidad-visual.md) |
+| Formulario de solicitud de información (15/09/2026) | Sin backend: arma la solicitud en el navegador y la persona la envía por correo o la presenta impresa | Respeta el sitio estático y no suma superficie de ataque antes del 16/09. Recepción con número de trámite (idealmente, un expediente en el sistema propio): fase 2. Ver [docs/acceso-a-la-informacion.md](docs/acceso-a-la-informacion.md) |
 
 ## Layout institucional (aprobado 11/09/2026) — ✅ implementado
 

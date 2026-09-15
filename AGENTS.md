@@ -20,6 +20,7 @@ Sitio estático con Astro 7 para https://transparencia.unlar.edu.ar. El plan, la
 ## Contenido
 - Documentos por sección en `src/content/documentos/<slug>.yaml`, validados por `src/content.config.ts`. Los PDFs van en `public/documentos/<slug>/<año>/`.
 - Guía para el equipo: [docs/cargar-documentos.md](docs/cargar-documentos.md).
+- Acceso a la información: página propia con formulario sin backend (arma la solicitud en el navegador). Sus datos institucionales están en `src/data/acceso-informacion.ts`; el build falla si falta alguno, salvo con `PERMITIR_PENDIENTES=1`. Ver [docs/acceso-a-la-informacion.md](docs/acceso-a-la-informacion.md).
 - Nunca inventar contenido institucional (documentos, contactos, procedimientos): lo entregan las áreas y lo valida Legal y Técnica. Para pruebas, usar ejemplos marcados como tales y no commitearlos.
 
 ## Development

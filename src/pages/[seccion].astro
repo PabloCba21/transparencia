@@ -1,16 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
+import ListaDocumentos from '../components/ListaDocumentos.astro';
 import { secciones, type Seccion } from '../data/secciones';
 import { formatearFecha } from '../lib/fechas';
-import { agruparPorAnio, contenidoDeSeccion, formatearTamano } from '../lib/documentos';
+import { contenidoDeSeccion } from '../lib/documentos';
 
 // Una página estática por sección. Astro llama a esta función en el build y
 // genera /presupuesto/index.html, /convenios/index.html, etc.
 export function getStaticPaths() {
-	return secciones.map((seccion) => ({
-		params: { seccion: seccion.slug },
-		props: { seccion },
-	}));
+	// Secciones que tienen su propia página en src/pages/ (si no se excluyen,
+	// habría dos páginas para la misma URL). Va acá adentro porque Astro ejecuta
+	// esta función aislada: solo ve lo importado, no las constantes del archivo.
+	const PAGINAS_PROPIAS = new Set(['acceso-a-la-informacion']);
+
+	return secciones
+		.filter((seccion) => !PAGINAS_PROPIAS.has(seccion.slug))
+		.map((seccion) => ({
+			params: { seccion: seccion.slug },
+			props: { seccion },
+		}));
 }
 
 interface Props {
@@ -19,7 +27,6 @@ interface Props {
 
 const { seccion } = Astro.props;
 const { documentos, ultimaActualizacion } = await contenidoDeSeccion(seccion.slug);
-const grupos = agruparPorAnio(documentos);
 ---
 
 <Base titulo={seccion.titulo} descripcion={seccion.descripcion} slugActivo={seccion.slug}>
@@ -52,31 +59,5 @@ const grupos = agruparPorAnio(documentos);
 		}
 	</div>
 
-	{
-		grupos.map(([anio, docs]) => (
-			<section class="anio" aria-labelledby={`anio-${anio}`}>
-				<h2 id={`anio-${anio}`}>{anio}</h2>
-				<ul class="documentos">
-					{docs.map((doc) => (
-						<li class="documento">
-							{/* El formato y el tamaño van DENTRO del link: el lector de pantalla
-							    anuncia qué se va a abrir antes de hacer clic (WCAG 2.4.4) */}
-							<a class="documento__titulo" href={doc.url}>
-								{doc.titulo}{' '}
-								<span class="documento__archivo">(PDF, {formatearTamano(doc.bytes)})</span>
-							</a>
-							{doc.descripcion && <p class="documento__descripcion">{doc.descripcion}</p>}
-							<p class="documento__meta">
-								<span>{doc.tipo}</span>
-								<span>
-									<time datetime={doc.fecha}>{formatearFecha(doc.fecha)}</time>
-								</span>
-								{doc.expediente && <span>Expte. {doc.expediente}</span>}
-							</p>
-						</li>
-					))}
-				</ul>
-			</section>
-		))
-	}
+	<ListaDocumentos documentos={documentos} />
 </Base>
