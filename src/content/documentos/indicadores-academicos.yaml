@@ -1,0 +1,19 @@
+# Documentos de la sección. Guía: docs/cargar-documentos.md
+#
+# revisado: última vez que se consultó al área si hay información nueva.
+# Mientras la lista esté vacía, la página muestra "Información en proceso de
+# actualización" con esta fecha.
+revisado: 2026-09-15
+
+documentos: []
+
+# Ejemplo (el PDF va en public/documentos/<sección>/2026/nombre-del-archivo.pdf):
+#
+# documentos:
+#   - titulo: Nombre del documento tal como se lo quiere mostrar
+#     fecha: 2026-03-15          # fecha que figura en el documento
+#     publicado: 2026-09-16      # fecha de carga en el portal
+#     tipo: Resolución           # Resolución, Ordenanza, Disposición, Informe, Convenio, Contrato, Acta u Otro
+#     archivo: 2026/nombre-del-archivo.pdf
+#     expediente: 00-00000-2026  # opcional
+#     descripcion: Una línea que explique el contenido  # opcional

@@ -23,6 +23,7 @@ Carpeta: `public/documentos/<sección>/<año del documento>/`
 | Convenios | `convenios` |
 | Informes de auditoría | `auditorias` |
 | Normativa y resoluciones | `normativa` |
+| Indicadores académicos | `indicadores-academicos` |
 | Acceso a la información pública | `acceso-a-la-informacion` |
 
 Nombre del archivo: **minúsculas, números y guiones**. Sin espacios, tildes, ñ ni mayúsculas, que rompen las direcciones web.

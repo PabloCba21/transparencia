@@ -109,7 +109,7 @@ img {
 
 /* --- Saltar al contenido --------------------------------------------------
    Link invisible hasta que recibe el foco. Permite saltear el menú con el
-   teclado en lugar de tabular por las nueve secciones en cada página. */
+   teclado en lugar de tabular por todas las secciones en cada página. */
 .saltar {
 	position: absolute;
 	left: -9999px;
@@ -181,7 +181,7 @@ img {
 
 .menu__lista a {
 	display: block;
-	padding: 0.7rem 0.85rem;
+	padding: 0.7rem 0.7rem;
 	color: #fff; /* 7.0:1 sobre el azul institucional */
 	text-decoration: none;
 	font-size: 0.95rem;
@@ -206,7 +206,9 @@ img {
 
 /* Dos menús: uno plegable para celular y una lista para escritorio.
    El que está oculto con display:none tampoco lo lee el lector de pantalla,
-   así que no se duplican los links. Todo sin una línea de JavaScript. */
+   así que no se duplican los links. Todo sin una línea de JavaScript.
+   La lista aparece recién a 72rem (el ancho máximo del contenido): con menos
+   espacio las secciones no entran en un renglón y el menú se partiría en dos. */
 .menu__movil {
 	display: block;
 	padding-block: 0.35rem;
@@ -230,7 +232,7 @@ img {
 	display: none;
 }
 
-@media (min-width: 62rem) {
+@media (min-width: 72rem) {
 	.menu__movil {
 		display: none;
 	}

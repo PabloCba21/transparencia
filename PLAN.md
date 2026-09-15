@@ -23,7 +23,7 @@
 1. **`src/layouts/Base.astro`:** franja blanca con el logo de línea y "Portal de Transparencia", debajo la barra azul `#1e5b96` con el menú de secciones, y footer bordó `#260b17` con los datos institucionales.
    > Cambio sobre lo aprobado: el logo no podía ir sobre la barra azul porque es azul `#1e5b96` + gris y desaparecía. Va sobre blanco, igual que en www.unlar.edu.ar ([detalle](docs/identidad-visual.md)).
 2. **Tipografías** Open Sans (texto) y Dosis (títulos) servidas desde el sitio. Colores como variables CSS en un único lugar.
-3. **Home:** una introducción breve y una grilla de 9 tarjetas, una por sección. Motivo UX: la gente llega con una pregunta concreta y necesita ver las puertas de entrada de un vistazo.
+3. **Home:** una introducción breve y una grilla de tarjetas, una por sección. Motivo UX: la gente llega con una pregunta concreta y necesita ver las puertas de entrada de un vistazo.
 4. **Una página por sección**, con la leyenda "Información en proceso de actualización" + fecha mientras no haya contenido.
 5. **Accesibilidad:** `lang="es"`, link "Saltar al contenido", foco visible y contraste AA.
 
@@ -46,7 +46,8 @@ Referencia: Ley 27.275, art. 32 (transparencia activa).
 6. Convenios
 7. Informes de auditoría (UAI, SIGEN, AGN)
 8. Normativa y resoluciones
-9. Acceso a la información pública (cómo solicitarla)
+9. Indicadores académicos (agregada el 15/09/2026)
+10. Acceso a la información pública (cómo solicitarla)
 
 Una sección sin contenido se publica igual con la leyenda *"Información en proceso de actualización"* y la fecha.
 

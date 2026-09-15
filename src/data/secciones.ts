@@ -72,9 +72,15 @@ export const secciones: Seccion[] = [
 		descripcion: 'Resoluciones rectorales y del Consejo Superior vinculadas al manejo de fondos.',
 	},
 	{
+		slug: 'indicadores-academicos',
+		titulo: 'Indicadores académicos',
+		tituloCorto: 'Indicadores',
+		descripcion: 'Indicadores de la actividad académica de la Universidad Nacional de La Rioja.',
+	},
+	{
 		slug: 'acceso-a-la-informacion',
 		titulo: 'Acceso a la información pública',
-		tituloCorto: 'Cómo solicitar información',
+		tituloCorto: 'Solicitar información',
 		descripcion: 'Cómo pedir información que no esté publicada en este portal, según la Ley 27.275.',
 	},
 ];
