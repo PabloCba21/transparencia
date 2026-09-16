@@ -45,7 +45,7 @@ const superiores = [
 						{/* El cargo y el nombre ya están como texto al lado, así que el alt
 						    solo dice qué es la imagen y a quién muestra */}
 						alt={`Retrato de ${autoridad.nombre}`}
-						widths={[280, 420, 560]}
+						widths={[280, 395]}
 						sizes="(min-width: 48rem) 17rem, 45vw"
 					/>
 					<p class="superior__cargo">{autoridad.cargo}</p>
@@ -122,7 +122,10 @@ const superiores = [
 		display: block;
 		width: 100%;
 		height: auto;
-		aspect-ratio: 4 / 5;
+		/* La proporción de los retratos institucionales: así no se recorta nada
+		   y las dos tarjetas quedan de la misma altura aunque las fotos difieran
+		   en unos píxeles. */
+		aspect-ratio: 69 / 100;
 		object-fit: cover;
 		object-position: center top;
 		background: var(--fondo-alterno);
