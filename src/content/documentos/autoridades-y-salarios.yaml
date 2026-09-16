@@ -5,7 +5,31 @@
 # actualización" con esta fecha.
 revisado: 2026-09-14
 
-documentos: []
+documentos:
+  - titulo: Liquidación de Haberes de Funcionarios no Escalafonados
+    fecha: 2015-05-15
+    publicado: 2026-09-15
+    tipo: Resolución
+    archivo: 2015/resolucion-128-15-liquidacion-de-haberes-de-funcionarios-no-escalafonados.pdf
+    descripcion: Resolución Rectoral que detalla cómo se liquidan los haberes de los funcionarios no escalafonados.
+  - titulo: Recomposición Salarial Autoridades Universitarias -2022
+    fecha: 2022-07-28
+    publicado: 2026-09-15
+    tipo: Resolución
+    archivo: 2022/resolucion-647-22-recomposicion-salarial-autoridades-universitarias.pdf
+    descripcion: Resolución Rectoral que establece un adicional no remunerativo y no bonificable para las Autoridades Superiores
+  - titulo: Recomposición Salarial Autoridades Universitarias - 2023
+    fecha: 2023-11-30
+    publicado: 2026-09-15
+    tipo: Resolución
+    archivo: 2023/resolucion-750-23-recomposicion-salarial-autoridades-universitarias.pdf
+    descripcion: Resolución Rectoral que establece un incremento salarial al básico para cargos de Rector, Vice-Rector, Decanos y Secretarios
+  - titulo: Informe de Nómina de Cargos de Gestión
+    fecha: 2026-09-14
+    publicado: 2026-09-15
+    tipo: Informe
+    archivo: 2026/informe-nomina-cargos-de-gestion.pdf
+    descripcion: Informe elevado por la SAF sobre la nómina de funcionarios, asesores y cargos políticos correspondientes a la gestión
 
 # Ejemplo (el PDF va en public/documentos/<sección>/2026/nombre-del-archivo.pdf):
 #
