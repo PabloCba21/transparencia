@@ -56,7 +56,7 @@ Si ya hay documentos, agregar otro bloque que empiece con `  - titulo:` debajo d
 | `titulo` | Cómo se va a mostrar. Claro para cualquier persona, no solo para quien conoce el expediente. | Sí |
 | `fecha` | La fecha **que figura en el documento**, en formato `AAAA-MM-DD` | Sí |
 | `publicado` | La fecha **de carga en el portal**, en formato `AAAA-MM-DD` | Sí |
-| `tipo` | Uno de: `Resolución`, `Ordenanza`, `Disposición`, `Informe`, `Convenio`, `Contrato`, `Acta`, `Otro` (con mayúscula y tilde) | Sí |
+| `tipo` | Uno de: `Resolución`, `Ordenanza`, `Disposición`, `Informe`, `Convenio`, `Contrato`, `Acta`, `Cuadro estadístico`, `Otro` (con mayúscula y tilde) | Sí |
 | `archivo` | La ruta desde la carpeta de la sección: `año/nombre.pdf`. El año tiene que coincidir con el de `fecha`. | Sí |
 | `expediente` | Número de expediente | No |
 | `descripcion` | Una línea que explique el contenido | No |

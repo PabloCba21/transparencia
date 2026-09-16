@@ -32,6 +32,7 @@ export const TIPOS_DOCUMENTO = [
 	'Convenio',
 	'Contrato',
 	'Acta',
+	'Cuadro estadístico',
 	'Otro',
 ] as const;
 
