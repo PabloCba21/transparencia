@@ -5,7 +5,79 @@
 # actualización" con esta fecha.
 revisado: 2026-09-15
 
-documentos: []
+documentos:
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2016
+    fecha: 2016-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2016/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2017
+    fecha: 2017-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2017/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2018
+    fecha: 2018-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2018/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2019
+    fecha: 2019-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2019/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2020
+    fecha: 2020-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2020/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2021
+    fecha: 2021-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2021/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2022
+    fecha: 2022-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2022/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2023
+    fecha: 2023-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2023/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2024
+    fecha: 2024-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2024/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Estudiantes, Nuevos Inscriptos, Reinscriptos, Egresados y Estudiantes de Ingreso de Pregrado y Grado - 2025
+    fecha: 2025-10-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2025/datos-estadisticos-estudiantes-egresados.pdf
+    descripcion: Cuadro estadístico.
+  - titulo: Oferta Académica
+    fecha: 2026-06-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2026/oferta-academica.pdf
+    descripcion: Cuadro en el que se detallan las ofertas académicas para el año 2026.
+  - titulo: Promedio Histórico por Carreras
+    fecha: 2026-06-10
+    publicado: 2026-09-15
+    tipo: Cuadro estadístico
+    archivo: 2026/promedio-historico.pdf
+    descripcion: Cuadro estadístico.    
 
 # Ejemplo (el PDF va en public/documentos/<sección>/2026/nombre-del-archivo.pdf):
 #
@@ -13,7 +85,7 @@ documentos: []
 #   - titulo: Nombre del documento tal como se lo quiere mostrar
 #     fecha: 2026-03-15          # fecha que figura en el documento
 #     publicado: 2026-09-16      # fecha de carga en el portal
-#     tipo: Resolución           # Resolución, Ordenanza, Disposición, Informe, Convenio, Contrato, Acta u Otro
+#     tipo: Resolución           # Resolución, Ordenanza, Disposición, Informe, Convenio, Contrato, Acta, Cuadro estadístico u Otro
 #     archivo: 2026/nombre-del-archivo.pdf
 #     expediente: 00-00000-2026  # opcional
 #     descripcion: Una línea que explique el contenido  # opcional
