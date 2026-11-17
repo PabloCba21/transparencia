@@ -1,0 +1,8 @@
+# Documentos de la sección. Guía: docs/cargar-documentos.md
+#
+# El contenido principal de esta sección es texto y vive en src/data/mision.ts.
+# Esta lista queda disponible por si se decide publicar también los documentos
+# que le dan origen (el Estatuto o el Plan Estratégico Institucional).
+revisado: 2026-11-17
+
+documentos: []

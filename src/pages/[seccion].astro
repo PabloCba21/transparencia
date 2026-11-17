@@ -11,7 +11,11 @@ export function getStaticPaths() {
 	// Secciones que tienen su propia página en src/pages/ (si no se excluyen,
 	// habría dos páginas para la misma URL). Va acá adentro porque Astro ejecuta
 	// esta función aislada: solo ve lo importado, no las constantes del archivo.
-	const PAGINAS_PROPIAS = new Set(['acceso-a-la-informacion', 'autoridades-y-salarios']);
+	const PAGINAS_PROPIAS = new Set([
+		'acceso-a-la-informacion',
+		'autoridades-y-salarios',
+		'mision-institucional',
+	]);
 
 	return secciones
 		.filter((seccion) => !PAGINAS_PROPIAS.has(seccion.slug))

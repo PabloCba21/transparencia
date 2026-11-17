@@ -16,6 +16,15 @@ export interface Seccion {
   tituloCorto: string;
   /** Una línea que explica qué va a encontrar la persona */
   descripcion: string;
+  /**
+   * `true` si la sección tiene contenido propio en su página (texto institucional,
+   * un formulario) y no solo una lista de documentos.
+   *
+   * Sin esto, la tarjeta de la home diría "En proceso de actualización" cuando la
+   * lista de documentos está vacía, aunque la página tenga contenido. En un portal
+   * de transparencia, decir que algo falta cuando está publicado es un error serio.
+   */
+  contenidoPropio?: boolean;
 }
 
 // Los documentos de cada sección y su fecha de actualización están en
@@ -23,6 +32,14 @@ export interface Seccion {
 // nunca de la fecha del build: esa cambiaría en cada deploy aunque nada cambie.
 
 export const secciones: Seccion[] = [
+  {
+    slug: "mision-institucional",
+    titulo: "Misión Institucional",
+    tituloCorto: "Misión",
+    descripcion:
+      "Misión y fines permanentes de la Universidad Nacional de La Rioja, según su Estatuto y su Plan Estratégico.",
+    contenidoPropio: true,
+  },
   {
     slug: "presupuesto",
     titulo: "Presupuesto asignado",
@@ -92,5 +109,7 @@ export const secciones: Seccion[] = [
     tituloCorto: "Solicitar información",
     descripcion:
       "Cómo pedir información que no esté publicada en este portal, según la Ley 27.275.",
+    // La página tiene el formulario de solicitud, aunque no haya documentos cargados
+    contenidoPropio: true,
   },
 ];

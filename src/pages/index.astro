@@ -42,7 +42,13 @@ const descripcion =
 					{/* Estado de la sección: la persona sabe si vale la pena entrar antes de hacer clic */}
 					<p class="tarjeta__estado">
 						{contenido.documentos.length === 0 ? (
-							<>En proceso de actualización</>
+							// Una sección con contenido propio (texto, formulario) no está
+							// "en proceso": lo que no tiene es lista de documentos.
+							seccion.contenidoPropio ? (
+								<>Información disponible</>
+							) : (
+								<>En proceso de actualización</>
+							)
 						) : (
 							<>
 								{contenido.documentos.length} {contenido.documentos.length === 1 ? 'documento' : 'documentos'} ·
