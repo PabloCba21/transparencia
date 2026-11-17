@@ -20,6 +20,13 @@ documentos:
     archivo: 2017/estatuto-2017-ord-cs-unlar-098-2017.pdf
     expediente: 00-04787-2015
     descripcion: Ordenar el texto del Estatuto universitario aprobado mediante Resolución Asamblea Universitaria N° 031.
+  - titulo: Estatuto 2026 Res. Asamblea Universitaria UNLaR 033-2026
+    fecha: 2026-06-24
+    publicado: 2026-09-15
+    tipo: Resolución
+    archivo: 2026/estatuto-2026-res-asamblea-universitaria-unlar-033-2026.pdf
+    expediente: 00-05088-2026
+    descripcion: Resuelve Aprobar la modificación integral del estatuto de la Universidad Nacional de La Rioja.
 
 # Ejemplo (el PDF va en public/documentos/<sección>/2026/nombre-del-archivo.pdf):
 #
