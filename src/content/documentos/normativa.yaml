@@ -3,7 +3,7 @@
 # revisado: última vez que se consultó al área si hay información nueva.
 # Mientras la lista esté vacía, la página muestra "Información en proceso de
 # actualización" con esta fecha.
-revisado: 2026-09-15
+revisado: 2026-11-16
 
 documentos:
   - titulo: Resolución 378/2016 — Implementación de la transparencia activa
@@ -13,6 +13,13 @@ documentos:
     archivo: 2016/resolucion-378-2016-transparencia-activa.pdf
     expediente: 00-08172-2016
     descripcion: Implementación Transparencia Activa.
+  - titulo: Estatuto 2017 Ord. CS UNLaR 098-2017
+    fecha: 2017-07-17
+    publicado: 2026-09-15
+    tipo: Ordenanza
+    archivo: 2017/estatuto-2017-ord-cs-unlar-098-2017.pdf
+    expediente: 00-04787-2015
+    descripcion: Ordenar el texto del Estatuto universitario aprobado mediante Resolución Asamblea Universitaria N° 031.
 
 # Ejemplo (el PDF va en public/documentos/<sección>/2026/nombre-del-archivo.pdf):
 #
