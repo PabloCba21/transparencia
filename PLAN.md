@@ -16,6 +16,8 @@
 | TLS | Wildcard institucional `*.unlar.edu.ar` (Sectigo) | Ya cubre el subdominio. **Vence el 22/10/2026** |
 | Repositorio | Git local (después, GitHub) | — |
 | Identidad visual | La de www.unlar.edu.ar | Ver [docs/identidad-visual.md](docs/identidad-visual.md) |
+| Versión de Astro fijada en `7.3.2` (17/11/2026) | Sin `^`, para que ningún `npm install` la cambie sin que se decida | **Astro 7.4.12 rompe este sitio**: lee los archivos de fuentes locales con `fetch()`, que en Node no sabe abrir `file://`. Revisar cuando salga una corrección (el error es `CannotFetchFontFile`) |
+| Fuentes en el repositorio (17/11/2026) | Los `.woff2` viven en `src/assets/fonts/` y se declaran con `fontProviders.local()` | Antes el build descargaba las fuentes del CDN jsdelivr para calcular métricas: fallaba de forma intermitente si la red andaba mal, y sin internet no se podía publicar. Además bajó de 13 archivos de fuente a 2 (77 KB) |
 | Formulario de solicitud de información (15/09/2026) | Sin backend: arma la solicitud en el navegador y la persona la envía por correo o la presenta impresa | Respeta el sitio estático y no suma superficie de ataque antes del 16/09. Recepción con número de trámite (idealmente, un expediente en el sistema propio): fase 2. Ver [docs/acceso-a-la-informacion.md](docs/acceso-a-la-informacion.md) |
 
 ## Layout institucional (aprobado 11/09/2026) — ✅ implementado
