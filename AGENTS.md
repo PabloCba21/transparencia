@@ -1,9 +1,11 @@
 # Portal de Transparencia UNLaR
 
-Sitio estático con Astro 7 para https://transparencia.unlar.edu.ar. El plan, las decisiones y el cronograma están en [PLAN.md](PLAN.md). El contexto institucional está en `../CLAUDE.md`.
+Sitio estático con Astro 7 para https://transparencia.unlar.edu.ar, **en producción desde el 16/09/2026**. El plan y las decisiones de la v1 están en [PLAN.md](PLAN.md); los de la v2 en curso, en [PLAN-v2.md](PLAN-v2.md). El contexto institucional está en `../CLAUDE.md`.
+
+**v2 (en curso):** sigue estático — se suman buscador y filtros (Pagefind, índice generado en el build) y más secciones según el Índice de Transparencia Activa de la AAIP. Se descartó a propósito la base de datos: solo la SSI carga contenido.
 
 ## Reglas del proyecto
-- **Sitio 100% estático**: nada de SSR, APIs, formularios con backend ni login.
+- **Sitio 100% estático**: nada de SSR, APIs, formularios con backend ni login. Vale también para la v2: el buscador se resuelve con un índice generado en el build, no con un servidor.
 - **Sin recursos externos**: fuentes, imágenes y scripts se sirven desde el propio sitio. La CSP de Nginx (`deploy/nginx/`) bloquea todo lo demás.
 - **Nunca commitear certificados ni claves** (`.key`, `.crt`, `.pem`, `.ca-bundle`).
 - La identidad visual respeta la de www.unlar.edu.ar: ver [docs/identidad-visual.md](docs/identidad-visual.md).
