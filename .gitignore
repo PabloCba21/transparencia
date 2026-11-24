@@ -30,3 +30,8 @@ pnpm-debug.log*
 *.ca-bundle
 *.p12
 *.pfx
+
+
+# --------
+CLAUDE.md
+AGENTES.md
