@@ -142,6 +142,52 @@ img {
 	padding-block: 0.9rem;
 }
 
+/* Visible solo para lectores de pantalla (el label del buscador del header) */
+.solo-lectores {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* Buscador del header: a la derecha en escritorio, abajo del logo en celular */
+.cabecera__interior {
+	flex-wrap: wrap;
+}
+
+.busqueda-rapida {
+	display: flex;
+	margin-left: auto;
+	flex: 1 1 16rem;
+	max-width: 22rem;
+}
+
+.busqueda-rapida input {
+	flex: 1;
+	min-width: 0;
+	font: inherit;
+	padding: 0.45rem 0.7rem;
+	border: 1px solid #767676;
+	border-right: 0;
+	border-radius: var(--radio) 0 0 var(--radio);
+}
+
+.busqueda-rapida button {
+	font: inherit;
+	cursor: pointer;
+	padding: 0.45rem 0.9rem;
+	color: #fff;
+	background: var(--azul);
+	border: 1px solid var(--azul);
+	border-radius: 0 var(--radio) var(--radio) 0;
+}
+
+.busqueda-rapida button:hover {
+	background: var(--azul-oscuro);
+}
+
 .marca {
 	display: flex;
 	align-items: center;

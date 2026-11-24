@@ -1,0 +1,97 @@
+/*
+ * Página de búsqueda (src/pages/buscar.astro). Usa las variables de global.css.
+ * Los resultados reutilizan las clases .documento* de la lista de cada sección.
+ */
+
+[hidden] {
+	display: none !important;
+}
+
+.buscador {
+	max-width: 48rem;
+}
+
+.buscador label,
+.buscador legend {
+	display: block;
+	font-weight: 600;
+	color: var(--texto-titulo);
+	margin-bottom: 0.3rem;
+}
+
+.buscador input,
+.buscador select {
+	font: inherit;
+	color: var(--texto);
+	background: var(--fondo);
+	/* Borde #767676 o más oscuro: contraste 4.5:1 contra blanco (WCAG 1.4.11) */
+	border: 1px solid #767676;
+	border-radius: var(--radio);
+	padding: 0.55rem 0.7rem;
+	width: 100%;
+}
+
+.buscador__campo input {
+	font-size: 1.1rem;
+}
+
+.buscador__filtros {
+	border: 0;
+	padding: 0;
+	margin: 1.25rem 0 0;
+	display: grid;
+	/* En celular, un filtro debajo del otro; en pantallas anchas, en fila */
+	grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+	gap: 0.75rem 1rem;
+	align-items: end;
+}
+
+/* El legend no participa de la grilla: ocupa su propia fila */
+.buscador__filtros legend {
+	grid-column: 1 / -1;
+	float: left;
+	width: 100%;
+	margin-bottom: 0;
+	padding: 0; /* el navegador le pone padding propio y lo desalinea */
+}
+
+.buscador__filtro label {
+	font-weight: 400;
+	font-size: 0.9rem;
+}
+
+.buscador__limpiar,
+.buscador__mas {
+	font: inherit;
+	cursor: pointer;
+	border-radius: var(--radio);
+	padding: 0.55rem 1rem;
+	border: 1px solid var(--azul);
+	background: var(--fondo);
+	color: var(--azul);
+}
+
+.buscador__limpiar:hover,
+.buscador__mas:hover {
+	background: var(--fondo-alterno);
+	color: var(--azul-oscuro);
+}
+
+.buscador__estado {
+	margin: 1.75rem 0 0.25rem;
+	font-weight: 600;
+	color: var(--texto-titulo);
+}
+
+.buscador__estado:empty {
+	margin: 0;
+}
+
+.buscador__resultados mark {
+	background: #fff1b8;
+	color: inherit;
+}
+
+.buscador__mas {
+	margin-top: 1rem;
+}

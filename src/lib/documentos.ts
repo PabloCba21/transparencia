@@ -80,9 +80,5 @@ export function agruparPorAnio(documentos: Documento[]): Array<[anio: string, do
 	return [...grupos.entries()].sort(([a], [b]) => b.localeCompare(a));
 }
 
-/** 1234567 → "1,2 MB" · 85000 → "83 KB" */
-export function formatearTamano(bytes: number): string {
-	const formato = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 1 });
-	if (bytes >= 1024 * 1024) return `${formato.format(bytes / (1024 * 1024))} MB`;
-	return `${Math.max(1, Math.round(bytes / 1024))} KB`;
-}
+// Vive en ./formato (sin dependencias de Astro); se reexporta para no cambiar los imports existentes
+export { formatearTamano } from './formato';

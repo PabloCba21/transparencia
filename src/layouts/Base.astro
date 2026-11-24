@@ -10,9 +10,11 @@ interface Props {
 	descripcion: string;
 	/** Slug de la sección activa, para marcarla en el menú */
 	slugActivo?: string;
+	/** `false` para que la página no aparezca en el buscador (404, la propia búsqueda) */
+	indexar?: boolean;
 }
 
-const { titulo, descripcion, slugActivo } = Astro.props;
+const { titulo, descripcion, slugActivo, indexar = true } = Astro.props;
 const tituloCompleto = `${titulo} · Portal de Transparencia · UNLaR`;
 const canonica = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -56,6 +58,14 @@ const canonica = new URL(Astro.url.pathname, Astro.site);
 					/>
 					<span class="marca__titulo">Portal de Transparencia</span>
 				</a>
+
+				<!-- Formulario GET común y corriente: funciona sin JavaScript y deja la
+				     búsqueda en la URL (/buscar/?q=...), que se puede compartir. -->
+				<form class="busqueda-rapida" action="/buscar/" method="get" role="search">
+					<label class="solo-lectores" for="busqueda-rapida">Buscar en el portal</label>
+					<input id="busqueda-rapida" type="search" name="q" placeholder="Buscar documentos" />
+					<button type="submit">Buscar</button>
+				</form>
 			</div>
 		</header>
 
@@ -71,7 +81,9 @@ const canonica = new URL(Astro.url.pathname, Astro.site);
 			</div>
 		</nav>
 
-		<main id="contenido">
+		<!-- data-pagefind-body: el buscador indexa solo el contenido, no el menú ni el pie
+		     (si no, todas las páginas coincidirían con "Presupuesto" o "La Rioja") -->
+		<main id="contenido" data-pagefind-body={indexar ? '' : undefined}>
 			<div class="contenedor">
 				<slot />
 			</div>

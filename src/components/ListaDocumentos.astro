@@ -15,7 +15,9 @@ const grupos = agruparPorAnio(documentos);
 
 {
 	grupos.map(([anio, docs]) => (
-		<section class="anio" aria-labelledby={`anio-${anio}`}>
+		// data-pagefind-ignore: cada documento ya entra al índice como registro propio
+		// (src/lib/busqueda.ts). Si también se indexara acá, aparecería dos veces.
+		<section class="anio" aria-labelledby={`anio-${anio}`} data-pagefind-ignore>
 			<TituloAnio class="anio__titulo" id={`anio-${anio}`}>
 				{anio}
 			</TituloAnio>

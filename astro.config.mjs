@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
+import buscador from './src/integrations/buscador';
 
 // Las fuentes viven en este repositorio (src/assets/fonts/), no se descargan de
 // ningún CDN. Dos motivos:
@@ -13,6 +14,8 @@ const fuenteLocal = fontProviders.local();
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://transparencia.unlar.edu.ar',
+	// Índice de búsqueda generado al final del build (ver src/integrations/buscador.ts)
+	integrations: [buscador()],
 	fonts: [
 		{
 			provider: fuenteLocal,

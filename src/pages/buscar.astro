@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import { FILTROS } from '../lib/busqueda';
+import '../styles/buscador.css';
+
+// La página es estática: el HTML es siempre el mismo y la búsqueda ocurre en el
+// navegador (src/scripts/buscador.ts) contra el índice que Pagefind generó en el
+// build. Las opciones de los filtros también salen del índice, así no hay dos
+// listas de años o tipos que mantener sincronizadas.
+---
+
+<Base
+	titulo="Buscar documentos"
+	descripcion="Buscá documentos del Portal de Transparencia por texto, año, sección y tipo."
+	indexar={false}
+>
+	<p class="migas">
+		<a href="/">Inicio</a>
+		<span aria-hidden="true">›</span>
+		<span>Buscar</span>
+	</p>
+
+	<div class="texto-lectura">
+		<h1>Buscar documentos</h1>
+		<p>
+			Escribí una palabra, un número de resolución o de expediente. También podés elegir solo los
+			filtros para ver, por ejemplo, todas las resoluciones de un año.
+		</p>
+	</div>
+
+	<noscript>
+		<p class="aviso">
+			<strong>El buscador necesita JavaScript.</strong>
+			<span class="aviso__fecha">
+				Podés recorrer los documentos desde las <a href="/">secciones del portal</a>.
+			</span>
+		</p>
+	</noscript>
+
+	<!-- Oculto hasta que el script arranca: sin JavaScript no haría nada -->
+	<div class="buscador" data-buscador hidden>
+		<form class="buscador__form" role="search" data-form>
+			<div class="buscador__campo">
+				<label for="q">Texto a buscar</label>
+				<input id="q" name="q" type="search" autocomplete="off" />
+			</div>
+
+			<fieldset class="buscador__filtros">
+				<legend>Filtrar por</legend>
+				<div class="buscador__filtro">
+					<label for="f-anio">Año</label>
+					<select id="f-anio" name={FILTROS.anio} data-filtro={FILTROS.anio}>
+						<option value="">Todos</option>
+					</select>
+				</div>
+				<div class="buscador__filtro">
+					<label for="f-seccion">Sección</label>
+					<select id="f-seccion" name={FILTROS.seccion} data-filtro={FILTROS.seccion}>
+						<option value="">Todas</option>
+					</select>
+				</div>
+				<div class="buscador__filtro">
+					<label for="f-tipo">Tipo de documento</label>
+					<select id="f-tipo" name={FILTROS.tipo} data-filtro={FILTROS.tipo}>
+						<option value="">Todos</option>
+					</select>
+				</div>
+				<button class="buscador__limpiar" type="reset">Limpiar</button>
+			</fieldset>
+		</form>
+
+		<!-- role="status" = aria-live="polite": el lector de pantalla anuncia la
+		     cantidad de resultados cuando termina de escribir, sin mover el foco -->
+		<p class="buscador__estado" role="status" data-estado></p>
+
+		<ul class="documentos buscador__resultados" data-resultados></ul>
+		<button class="buscador__mas" type="button" data-mas hidden>Mostrar más resultados</button>
+	</div>
+</Base>
+
+<script>
+	import { iniciarBuscador } from '../scripts/buscador';
+	iniciarBuscador();
+</script>
