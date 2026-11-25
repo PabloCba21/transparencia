@@ -9,6 +9,7 @@
  * sitio, así que cumple la CSP (con 'wasm-unsafe-eval': el motor es WebAssembly).
  */
 import { FILTROS } from '../lib/busqueda';
+import { abreEnPestanaNueva, ATRIBUTOS_PESTANA_NUEVA, AVISO_PESTANA_NUEVA } from '../lib/enlaces';
 import { formatearFecha } from '../lib/fechas';
 
 // --- Tipos mínimos de la API de Pagefind (solo lo que se usa) ---------------
@@ -213,6 +214,9 @@ function dibujarResultado(datos: DatosResultado): HTMLLIElement {
 	const enlace = elemento('a', 'documento__titulo', meta.title ?? datos.url);
 	enlace.href = datos.url;
 	item.append(enlace);
+	// Misma regla que el componente Enlace.astro (src/lib/enlaces.ts)
+	const nueva = abreEnPestanaNueva(datos.url);
+	if (nueva) Object.assign(enlace, ATRIBUTOS_PESTANA_NUEVA);
 
 	const esDocumento = Boolean(meta.tipo);
 	if (esDocumento) {
@@ -225,6 +229,8 @@ function dibujarResultado(datos: DatosResultado): HTMLLIElement {
 		fragmento.innerHTML = datos.excerpt;
 		item.append(fragmento);
 	}
+
+	if (nueva) enlace.append(elemento('span', 'solo-lectores', ` ${AVISO_PESTANA_NUEVA}`));
 
 	const detalles = elemento('p', 'documento__meta');
 	if (esDocumento) {

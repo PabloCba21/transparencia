@@ -1,0 +1,21 @@
+---
+/**
+ * Link del portal. Decide solo si se abre en una pestaña nueva (src/lib/enlaces.ts)
+ * y, en ese caso, agrega el aviso para lectores de pantalla. El ícono visible lo
+ * pone el CSS a todo link con target="_blank" (global.css).
+ *
+ * Usalo para cualquier link cuyo destino no sea una página fija del portal:
+ * documentos, links externos, contenido que cargan las áreas.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { abreEnPestanaNueva, ATRIBUTOS_PESTANA_NUEVA, AVISO_PESTANA_NUEVA } from '../lib/enlaces';
+
+type Props = HTMLAttributes<'a'> & { href: string };
+
+const { href, ...resto } = Astro.props;
+const nueva = abreEnPestanaNueva(href);
+---
+
+<a href={href} {...resto} {...nueva ? ATRIBUTOS_PESTANA_NUEVA : {}}>
+	<slot />{nueva && <span class="solo-lectores"> {AVISO_PESTANA_NUEVA}</span>}
+</a>

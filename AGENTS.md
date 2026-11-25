@@ -10,6 +10,7 @@ Sitio estático con Astro 7 para https://transparencia.unlar.edu.ar, **en produc
 - **Nunca commitear certificados ni claves** (`.key`, `.crt`, `.pem`, `.ca-bundle`).
 - La identidad visual respeta la de www.unlar.edu.ar: ver [docs/identidad-visual.md](docs/identidad-visual.md).
 - Accesibilidad: WCAG 2.x nivel AA como mínimo.
+- **Pestaña nueva solo para PDFs y links externos** (otros sistemas o sitios). La navegación interna (menú, secciones, migas, logo, buscador) se abre en la misma pestaña. La regla vive en `src/lib/enlaces.ts`: para links con destino variable usar `src/components/Enlace.astro`, que agrega `target`/`rel` y el aviso para lectores de pantalla (WCAG G201); el ícono lo pone el CSS. Decidido por Pablo el 24/11/2026.
 - Textos del sitio en español.
 
 ## Comandos

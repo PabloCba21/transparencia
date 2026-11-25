@@ -1,6 +1,7 @@
 ---
 import { formatearFecha } from '../lib/fechas';
 import { agruparPorAnio, formatearTamano, type Documento } from '../lib/documentos';
+import Enlace from './Enlace.astro';
 
 interface Props {
 	documentos: Documento[];
@@ -26,10 +27,10 @@ const grupos = agruparPorAnio(documentos);
 					<li class="documento">
 						{/* El formato y el tamaño van DENTRO del link: el lector de pantalla
 						    anuncia qué se va a abrir antes de hacer clic (WCAG 2.4.4) */}
-						<a class="documento__titulo" href={doc.url}>
+						<Enlace class="documento__titulo" href={doc.url}>
 							{doc.titulo}{' '}
 							<span class="documento__archivo">(PDF, {formatearTamano(doc.bytes)})</span>
-						</a>
+						</Enlace>
 						{doc.descripcion && <p class="documento__descripcion">{doc.descripcion}</p>}
 						<p class="documento__meta">
 							<span>{doc.tipo}</span>

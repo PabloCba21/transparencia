@@ -498,3 +498,17 @@ main {
 		transition: none !important;
 	}
 }
+
+/* Links que se abren en otra pestaña (PDFs y externos, ver src/lib/enlaces.ts):
+   ícono visible para quien ve la pantalla. Es una máscara y no una imagen para
+   que tome el color del link (currentColor), también en :hover y :focus. */
+a[target='_blank']::after {
+	content: '';
+	display: inline-block;
+	width: 0.8em;
+	height: 0.8em;
+	margin-inline-start: 0.25em;
+	vertical-align: -0.05em;
+	background-color: currentColor;
+	mask: url('/img/icono-pestana-nueva.svg') no-repeat center / contain;
+}
