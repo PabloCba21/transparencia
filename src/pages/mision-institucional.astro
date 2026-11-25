@@ -1,12 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
+import Enlace from '../components/Enlace.astro';
 import { secciones } from '../data/secciones';
 import { mision } from '../data/mision';
+import { contenidoDeSeccion, formatearTamano } from '../lib/documentos';
+import { formatearFecha } from '../lib/fechas';
 
 // Página propia (no la genera [seccion].astro): el contenido es texto
 // institucional, no una lista de documentos. Ver PAGINAS_PROPIAS en esa página.
 const SLUG = 'mision-institucional';
 const seccion = secciones.find((s) => s.slug === SLUG)!;
+
+// El manual es una ordenanza: el archivo y su ficha viven en Normativa y acá se
+// los enlaza. Un solo PDF publicado, un solo lugar donde actualizar los datos.
+// Si alguien renombra o quita el documento, el build falla en vez de dejar un
+// link roto en producción.
+const ARCHIVO_MANUAL = '2011/ordenanza-cs-436-2011-manual-de-misiones-y-funciones.pdf';
+const { documentos: normativa } = await contenidoDeSeccion('normativa');
+const manual = normativa.find((doc) => doc.archivo === ARCHIVO_MANUAL);
+if (!manual) {
+	throw new Error(
+		`La página de Misión Institucional enlaza "${ARCHIVO_MANUAL}", que ya no figura en ` +
+			'src/content/documentos/normativa.yaml. Restaurar el documento o actualizar la referencia.',
+	);
+}
 ---
 
 <Base titulo={seccion.titulo} descripcion={seccion.descripcion} slugActivo={SLUG}>
@@ -20,6 +37,21 @@ const seccion = secciones.find((s) => s.slug === SLUG)!;
 		<h1>{seccion.titulo}</h1>
 		<p>{seccion.descripcion}</p>
 	</div>
+
+	{/* Va antes del primer bloque: es el documento que da origen a la estructura
+	    de misiones y funciones, y conviene tenerlo a mano al empezar a leer. */}
+	<aside class="destacado texto-lectura" aria-labelledby="doc-relacionado">
+		<p class="destacado__rotulo" id="doc-relacionado">Documento relacionado</p>
+		<Enlace class="destacado__titulo" href={manual.url}>
+			{manual.titulo}{' '}
+			<span class="destacado__archivo">(PDF, {formatearTamano(manual.bytes)})</span>
+		</Enlace>
+		{manual.descripcion && <p class="destacado__descripcion">{manual.descripcion}</p>}
+		<p class="destacado__meta">
+			<span>{manual.tipo}</span>
+			<span><time datetime={manual.fecha}>{formatearFecha(manual.fecha)}</time></span>
+		</p>
+	</aside>
 
 	{
 		mision.map((bloque) => (
@@ -61,6 +93,54 @@ const seccion = secciones.find((s) => s.slug === SLUG)!;
 	.fines li {
 		margin-bottom: 0.9rem;
 		padding-left: 0.35rem;
+	}
+
+	/* Mismo lenguaje visual que los avisos del portal: caja gris con barra azul */
+	.destacado {
+		margin-top: 2rem;
+		padding: 1.1rem 1.25rem;
+		background: var(--fondo-alterno);
+		border-left: 4px solid var(--azul);
+		border-radius: 0 var(--radio) var(--radio) 0;
+	}
+
+	.destacado__rotulo {
+		margin: 0 0 0.4rem;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--texto-suave);
+	}
+
+	.destacado__titulo {
+		font-weight: 600;
+		font-size: 1.05rem;
+	}
+
+	/* El peso va dentro del link: con 22 MB, avisar antes de descargar no es un
+	   detalle. `nowrap` evita que "(PDF, 22,5 MB)" se parta en dos renglones. */
+	.destacado__archivo {
+		font-weight: 400;
+		font-size: 0.9rem;
+		white-space: nowrap;
+	}
+
+	.destacado__descripcion {
+		margin: 0.4rem 0 0;
+	}
+
+	.destacado__meta {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0.35rem 0 0;
+		font-size: 0.875rem;
+		color: var(--texto-suave);
+	}
+
+	.destacado__meta span + span::before {
+		content: '·' / '';
+		margin-inline: 0.5rem;
 	}
 
 	.fuente {
